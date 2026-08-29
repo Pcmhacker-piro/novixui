@@ -1,4 +1,13 @@
 import "./lib/error-capture";
-import { createStartHandler, defaultStreamHandler } from "@tanstack/react-start/server";
+import {
+  createStartHandler,
+  defaultStreamHandler,
+} from "@tanstack/react-start/server";
 
-export default createStartHandler(defaultStreamHandler);
+const handler = createStartHandler(defaultStreamHandler);
+
+export default {
+  async fetch(request: Request) {
+    return handler(request);
+  },
+};
