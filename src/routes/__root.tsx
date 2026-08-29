@@ -136,8 +136,11 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+const defaultQueryClient = new QueryClient();
+
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
+  const context = Route.useRouteContext();
+  const queryClient = context?.queryClient ?? defaultQueryClient;
 
   return (
     <QueryClientProvider client={queryClient}>
