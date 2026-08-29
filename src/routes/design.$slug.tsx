@@ -1,6 +1,6 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
-import { SYSTEMS, buildServiceSite } from "./design";
+import { SYSTEMS, buildServiceSite } from "@/data/design-systems";
 
 export const Route = createFileRoute("/design/$slug")({
   loader: ({ params }) => {
