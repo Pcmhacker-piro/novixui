@@ -1,0 +1,248 @@
+[
+  {
+    "category": "Buttons",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": ""
+      },
+      "initial_dark_pressed": {
+        "pass": true,
+        "detail": "darkPressed='true'"
+      },
+      "initial_light_unpressed": {
+        "pass": true,
+        "detail": "lightPressed='false'"
+      },
+      "initial_swatch_dark": {
+        "pass": true,
+        "detail": "swatch='#0a0a0a'"
+      },
+      "initial_gradient_dark": {
+        "pass": true,
+        "detail": "gradient='radial-gradient(120% 80% at 50% 0%, rgb(18, 18, 18), rgb(5, 5, 5) 70%)'"
+      },
+      "light_focused_before_activate": {
+        "pass": true,
+        "detail": "activeIsLight=True"
+      },
+      "light_pressed_after_activate": {
+        "pass": true,
+        "detail": "lightPressed='true'"
+      },
+      "dark_unpressed_after_activate": {
+        "pass": true,
+        "detail": "darkPressed='false'"
+      },
+      "swatch_updates_to_light": {
+        "pass": true,
+        "detail": "swatch='#e8e8e8'"
+      },
+      "gradient_updates_to_light": {
+        "pass": true,
+        "detail": "gradient='radial-gradient(120% 80% at 50% 0%, rgb(245, 245, 245), rgb(232, 232, 232) 70%)'"
+      },
+      "gradient_actually_changed": {
+        "pass": true,
+        "detail": "gradient value unchanged after toggle"
+      },
+      "focus_preserved_on_light_btn": {
+        "pass": true,
+        "detail": "activeIsLight=True"
+      },
+      "focus_still_in_dialog": {
+        "pass": true,
+        "detail": "activeInDialog=True"
+      },
+      "dialog_still_open_after_toggle": {
+        "pass": true,
+        "detail": "open=True"
+      },
+      "dark_pressed_after_toggle_back": {
+        "pass": true,
+        "detail": "darkPressed='true'"
+      },
+      "swatch_reverts_to_dark": {
+        "pass": true,
+        "detail": "swatch='#0a0a0a'"
+      },
+      "focus_preserved_on_dark_btn": {
+        "pass": true,
+        "detail": "activeIsDark=True"
+      },
+      "escape_closes_after_theme_use": {
+        "pass": true,
+        "detail": "closed=True"
+      },
+      "focus_restored_after_theme_use": {
+        "pass": true,
+        "detail": "restored=True"
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Checkboxes",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": ""
+      },
+      "initial_dark_pressed": {
+        "pass": true,
+        "detail": "darkPressed='true'"
+      },
+      "initial_light_unpressed": {
+        "pass": true,
+        "detail": "lightPressed='false'"
+      },
+      "initial_swatch_dark": {
+        "pass": true,
+        "detail": "swatch='#0a0a0a'"
+      },
+      "initial_gradient_dark": {
+        "pass": true,
+        "detail": "gradient='radial-gradient(120% 80% at 50% 0%, rgb(18, 18, 18), rgb(5, 5, 5) 70%)'"
+      },
+      "light_focused_before_activate": {
+        "pass": true,
+        "detail": "activeIsLight=True"
+      },
+      "light_pressed_after_activate": {
+        "pass": true,
+        "detail": "lightPressed='true'"
+      },
+      "dark_unpressed_after_activate": {
+        "pass": true,
+        "detail": "darkPressed='false'"
+      },
+      "swatch_updates_to_light": {
+        "pass": true,
+        "detail": "swatch='#e8e8e8'"
+      },
+      "gradient_updates_to_light": {
+        "pass": true,
+        "detail": "gradient='radial-gradient(120% 80% at 50% 0%, rgb(245, 245, 245), rgb(232, 232, 232) 70%)'"
+      },
+      "gradient_actually_changed": {
+        "pass": true,
+        "detail": "gradient value unchanged after toggle"
+      },
+      "focus_preserved_on_light_btn": {
+        "pass": true,
+        "detail": "activeIsLight=True"
+      },
+      "focus_still_in_dialog": {
+        "pass": true,
+        "detail": "activeInDialog=True"
+      },
+      "dialog_still_open_after_toggle": {
+        "pass": true,
+        "detail": "open=True"
+      },
+      "dark_pressed_after_toggle_back": {
+        "pass": true,
+        "detail": "darkPressed='true'"
+      },
+      "swatch_reverts_to_dark": {
+        "pass": true,
+        "detail": "swatch='#0a0a0a'"
+      },
+      "focus_preserved_on_dark_btn": {
+        "pass": true,
+        "detail": "activeIsDark=True"
+      },
+      "escape_closes_after_theme_use": {
+        "pass": true,
+        "detail": "closed=True"
+      },
+      "focus_restored_after_theme_use": {
+        "pass": true,
+        "detail": "restored=True"
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Cards",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": ""
+      },
+      "initial_dark_pressed": {
+        "pass": true,
+        "detail": "darkPressed='true'"
+      },
+      "initial_light_unpressed": {
+        "pass": true,
+        "detail": "lightPressed='false'"
+      },
+      "initial_swatch_dark": {
+        "pass": true,
+        "detail": "swatch='#0a0a0a'"
+      },
+      "initial_gradient_dark": {
+        "pass": true,
+        "detail": "gradient='radial-gradient(120% 80% at 50% 0%, rgb(18, 18, 18), rgb(5, 5, 5) 70%)'"
+      },
+      "light_focused_before_activate": {
+        "pass": true,
+        "detail": "activeIsLight=True"
+      },
+      "light_pressed_after_activate": {
+        "pass": true,
+        "detail": "lightPressed='true'"
+      },
+      "dark_unpressed_after_activate": {
+        "pass": true,
+        "detail": "darkPressed='false'"
+      },
+      "swatch_updates_to_light": {
+        "pass": true,
+        "detail": "swatch='#e8e8e8'"
+      },
+      "gradient_updates_to_light": {
+        "pass": true,
+        "detail": "gradient='radial-gradient(120% 80% at 50% 0%, rgb(245, 245, 245), rgb(232, 232, 232) 70%)'"
+      },
+      "gradient_actually_changed": {
+        "pass": true,
+        "detail": "gradient value unchanged after toggle"
+      },
+      "focus_preserved_on_light_btn": {
+        "pass": true,
+        "detail": "activeIsLight=True"
+      },
+      "focus_still_in_dialog": {
+        "pass": true,
+        "detail": "activeInDialog=True"
+      },
+      "dialog_still_open_after_toggle": {
+        "pass": true,
+        "detail": "open=True"
+      },
+      "dark_pressed_after_toggle_back": {
+        "pass": true,
+        "detail": "darkPressed='true'"
+      },
+      "swatch_reverts_to_dark": {
+        "pass": true,
+        "detail": "swatch='#0a0a0a'"
+      },
+      "focus_preserved_on_dark_btn": {
+        "pass": true,
+        "detail": "activeIsDark=True"
+      },
+      "escape_closes_after_theme_use": {
+        "pass": true,
+        "detail": "closed=True"
+      },
+      "focus_restored_after_theme_use": {
+        "pass": true,
+        "detail": "restored=True"
+      }
+    },
+    "errors": []
+  }
+]

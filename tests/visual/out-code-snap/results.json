@@ -1,0 +1,212 @@
+[
+  {
+    "category": "Buttons",
+    "tab": "react",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": ""
+      },
+      "pane_present": {
+        "pass": true,
+        "detail": "metrics={'scrollWidth': 2315, 'clientWidth': 123, 'fontFamily': '\"Geist Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace', 'fontSize': '12px', 'lineCount': 3}"
+      },
+      "pixel_diff_within_threshold": {
+        "pass": true,
+        "detail": "ratio=0.00000 threshold=0.005 diff=/dev-server/tests/visual/out-code-snap/diff/buttons-react.png"
+      },
+      "line_count_stable": {
+        "pass": true,
+        "detail": "baseline=3 current=3"
+      },
+      "overflow_ratio_stable": {
+        "pass": true,
+        "detail": "baseline=2315/123 current=2315/123"
+      },
+      "font_family_stable": {
+        "pass": true,
+        "detail": "baseline='\"Geist Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace' current='\"Geist Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace'"
+      },
+      "font_size_stable": {
+        "pass": true,
+        "detail": "baseline='12px' current='12px'"
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Buttons",
+    "tab": "css",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": ""
+      },
+      "pane_present": {
+        "pass": true,
+        "detail": "metrics={'scrollWidth': 558, 'clientWidth': 123, 'fontFamily': '\"Geist Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace', 'fontSize': '12px', 'lineCount': 16}"
+      },
+      "pixel_diff_within_threshold": {
+        "pass": true,
+        "detail": "ratio=0.00000 threshold=0.005 diff=/dev-server/tests/visual/out-code-snap/diff/buttons-css.png"
+      },
+      "line_count_stable": {
+        "pass": true,
+        "detail": "baseline=16 current=16"
+      },
+      "overflow_ratio_stable": {
+        "pass": true,
+        "detail": "baseline=558/123 current=558/123"
+      },
+      "font_family_stable": {
+        "pass": true,
+        "detail": "baseline='\"Geist Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace' current='\"Geist Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace'"
+      },
+      "font_size_stable": {
+        "pass": true,
+        "detail": "baseline='12px' current='12px'"
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Checkboxes",
+    "tab": "react",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": ""
+      },
+      "pane_present": {
+        "pass": true,
+        "detail": "metrics={'scrollWidth': 1930, 'clientWidth': 615, 'fontFamily': '\"Geist Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace', 'fontSize': '12px', 'lineCount': 15}"
+      },
+      "pixel_diff_within_threshold": {
+        "pass": true,
+        "detail": "ratio=0.00000 threshold=0.005 diff=/dev-server/tests/visual/out-code-snap/diff/checkboxes-react.png"
+      },
+      "line_count_stable": {
+        "pass": true,
+        "detail": "baseline=15 current=15"
+      },
+      "overflow_ratio_stable": {
+        "pass": true,
+        "detail": "baseline=1930/615 current=1930/615"
+      },
+      "font_family_stable": {
+        "pass": true,
+        "detail": "baseline='\"Geist Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace' current='\"Geist Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace'"
+      },
+      "font_size_stable": {
+        "pass": true,
+        "detail": "baseline='12px' current='12px'"
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Checkboxes",
+    "tab": "css",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": ""
+      },
+      "pane_present": {
+        "pass": true,
+        "detail": "metrics={'scrollWidth': 615, 'clientWidth': 615, 'fontFamily': '\"Geist Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace', 'fontSize': '12px', 'lineCount': 16}"
+      },
+      "pixel_diff_within_threshold": {
+        "pass": true,
+        "detail": "ratio=0.00000 threshold=0.005 diff=/dev-server/tests/visual/out-code-snap/diff/checkboxes-css.png"
+      },
+      "line_count_stable": {
+        "pass": true,
+        "detail": "baseline=16 current=16"
+      },
+      "overflow_ratio_stable": {
+        "pass": true,
+        "detail": "baseline=615/615 current=615/615"
+      },
+      "font_family_stable": {
+        "pass": true,
+        "detail": "baseline='\"Geist Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace' current='\"Geist Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace'"
+      },
+      "font_size_stable": {
+        "pass": true,
+        "detail": "baseline='12px' current='12px'"
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Cards",
+    "tab": "react",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": ""
+      },
+      "pane_present": {
+        "pass": true,
+        "detail": "metrics={'scrollWidth': 1020, 'clientWidth': 615, 'fontFamily': '\"Geist Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace', 'fontSize': '12px', 'lineCount': 10}"
+      },
+      "pixel_diff_within_threshold": {
+        "pass": true,
+        "detail": "ratio=0.00000 threshold=0.005 diff=/dev-server/tests/visual/out-code-snap/diff/cards-react.png"
+      },
+      "line_count_stable": {
+        "pass": true,
+        "detail": "baseline=10 current=10"
+      },
+      "overflow_ratio_stable": {
+        "pass": true,
+        "detail": "baseline=1020/615 current=1020/615"
+      },
+      "font_family_stable": {
+        "pass": true,
+        "detail": "baseline='\"Geist Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace' current='\"Geist Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace'"
+      },
+      "font_size_stable": {
+        "pass": true,
+        "detail": "baseline='12px' current='12px'"
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Cards",
+    "tab": "css",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": ""
+      },
+      "pane_present": {
+        "pass": true,
+        "detail": "metrics={'scrollWidth': 615, 'clientWidth': 615, 'fontFamily': '\"Geist Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace', 'fontSize': '12px', 'lineCount': 16}"
+      },
+      "pixel_diff_within_threshold": {
+        "pass": true,
+        "detail": "ratio=0.00000 threshold=0.005 diff=/dev-server/tests/visual/out-code-snap/diff/cards-css.png"
+      },
+      "line_count_stable": {
+        "pass": true,
+        "detail": "baseline=16 current=16"
+      },
+      "overflow_ratio_stable": {
+        "pass": true,
+        "detail": "baseline=615/615 current=615/615"
+      },
+      "font_family_stable": {
+        "pass": true,
+        "detail": "baseline='\"Geist Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace' current='\"Geist Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace'"
+      },
+      "font_size_stable": {
+        "pass": true,
+        "detail": "baseline='12px' current='12px'"
+      }
+    },
+    "errors": []
+  }
+]

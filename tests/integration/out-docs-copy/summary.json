@@ -1,0 +1,7 @@
+{
+  "routes": 72,
+  "copy_buttons_checked": 180,
+  "errors": [
+    "[/docs/lab] btn#0 (Copy to clipboard): clipboard unchanged after click"
+  ]
+}

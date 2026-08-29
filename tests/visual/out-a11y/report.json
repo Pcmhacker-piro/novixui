@@ -1,0 +1,238 @@
+[
+  {
+    "category": "Buttons",
+    "checks": {
+      "aria_modal": {
+        "pass": true,
+        "detail": "aria-modal='true'"
+      },
+      "aria_labelledby": {
+        "pass": true,
+        "detail": "aria-labelledby='code-modal-title-m12'"
+      },
+      "initial_focus_in_dialog": {
+        "pass": true,
+        "detail": "activeElement={'tag': 'BUTTON', 'text': '', 'aria': 'Close dialog', 'inDialog': True, 'isDialog': False}"
+      },
+      "has_focusables": {
+        "pass": true,
+        "detail": "count=13"
+      },
+      "tab_trap_forward": {
+        "pass": true,
+        "detail": "escaped after 15 tabs"
+      },
+      "tab_trap_backward": {
+        "pass": true,
+        "detail": "escaped after 15 shift+tabs"
+      },
+      "accessible_name_resolves": {
+        "pass": true,
+        "detail": "labelledby=['code-modal-title-m12'] \u2192 name='m12 \u2014 code and preview'"
+      },
+      "close_button_named": {
+        "pass": true,
+        "detail": "aria-label='Close dialog'"
+      },
+      "tab_semantics": {
+        "pass": true,
+        "detail": "{\"ok\": true, \"tabs\": 2, \"selected\": 1, \"panelId\": \"nova-code-panel\", \"labelled\": \"nova-code-tab-react\"}"
+      },
+      "export_aria_expanded": {
+        "pass": true,
+        "detail": "closed='false' open='true' menuCount=1"
+      },
+      "export_escape_closes_menu_only": {
+        "pass": true,
+        "detail": "{\"dialogVisible\": true, \"menuCount\": 0, \"expanded\": \"false\"}"
+      },
+      "escape_closes": {
+        "pass": true,
+        "detail": ""
+      },
+      "focus_restored_to_trigger": {
+        "pass": true,
+        "detail": "restored=True"
+      }
+    },
+    "errors": [],
+    "pass": true
+  },
+  {
+    "category": "Checkboxes",
+    "checks": {
+      "aria_modal": {
+        "pass": true,
+        "detail": "aria-modal='true'"
+      },
+      "aria_labelledby": {
+        "pass": true,
+        "detail": "aria-labelledby='code-modal-title-confetti-pop'"
+      },
+      "initial_focus_in_dialog": {
+        "pass": true,
+        "detail": "activeElement={'tag': 'BUTTON', 'text': '', 'aria': 'Close dialog', 'inDialog': True, 'isDialog': False}"
+      },
+      "has_focusables": {
+        "pass": true,
+        "detail": "count=15"
+      },
+      "tab_trap_forward": {
+        "pass": true,
+        "detail": "escaped after 17 tabs"
+      },
+      "tab_trap_backward": {
+        "pass": true,
+        "detail": "escaped after 17 shift+tabs"
+      },
+      "accessible_name_resolves": {
+        "pass": true,
+        "detail": "labelledby=['code-modal-title-confetti-pop'] \u2192 name='Confetti Pop \u2014 code and preview'"
+      },
+      "close_button_named": {
+        "pass": true,
+        "detail": "aria-label='Close dialog'"
+      },
+      "tab_semantics": {
+        "pass": true,
+        "detail": "{\"ok\": true, \"tabs\": 2, \"selected\": 1, \"panelId\": \"nova-code-panel\", \"labelled\": \"nova-code-tab-react\"}"
+      },
+      "export_aria_expanded": {
+        "pass": true,
+        "detail": "closed='false' open='true' menuCount=1"
+      },
+      "export_escape_closes_menu_only": {
+        "pass": true,
+        "detail": "{\"dialogVisible\": true, \"menuCount\": 0, \"expanded\": \"false\"}"
+      },
+      "escape_closes": {
+        "pass": true,
+        "detail": ""
+      },
+      "focus_restored_to_trigger": {
+        "pass": true,
+        "detail": "restored=True"
+      }
+    },
+    "errors": [],
+    "pass": true
+  },
+  {
+    "category": "Toggles",
+    "checks": {
+      "aria_modal": {
+        "pass": true,
+        "detail": "aria-modal='true'"
+      },
+      "aria_labelledby": {
+        "pass": true,
+        "detail": "aria-labelledby='code-modal-title-lightbulb'"
+      },
+      "initial_focus_in_dialog": {
+        "pass": true,
+        "detail": "activeElement={'tag': 'BUTTON', 'text': '', 'aria': 'Close dialog', 'inDialog': True, 'isDialog': False}"
+      },
+      "has_focusables": {
+        "pass": true,
+        "detail": "count=15"
+      },
+      "tab_trap_forward": {
+        "pass": true,
+        "detail": "escaped after 17 tabs"
+      },
+      "tab_trap_backward": {
+        "pass": true,
+        "detail": "escaped after 17 shift+tabs"
+      },
+      "accessible_name_resolves": {
+        "pass": true,
+        "detail": "labelledby=['code-modal-title-lightbulb'] \u2192 name='Lightbulb \u2014 code and preview'"
+      },
+      "close_button_named": {
+        "pass": true,
+        "detail": "aria-label='Close dialog'"
+      },
+      "tab_semantics": {
+        "pass": true,
+        "detail": "{\"ok\": true, \"tabs\": 2, \"selected\": 1, \"panelId\": \"nova-code-panel\", \"labelled\": \"nova-code-tab-react\"}"
+      },
+      "export_aria_expanded": {
+        "pass": true,
+        "detail": "closed='false' open='true' menuCount=1"
+      },
+      "export_escape_closes_menu_only": {
+        "pass": true,
+        "detail": "{\"dialogVisible\": true, \"menuCount\": 0, \"expanded\": \"false\"}"
+      },
+      "escape_closes": {
+        "pass": true,
+        "detail": ""
+      },
+      "focus_restored_to_trigger": {
+        "pass": true,
+        "detail": "restored=True"
+      }
+    },
+    "errors": [],
+    "pass": true
+  },
+  {
+    "category": "Cards",
+    "checks": {
+      "aria_modal": {
+        "pass": true,
+        "detail": "aria-modal='true'"
+      },
+      "aria_labelledby": {
+        "pass": true,
+        "detail": "aria-labelledby='code-modal-title-starfield'"
+      },
+      "initial_focus_in_dialog": {
+        "pass": true,
+        "detail": "activeElement={'tag': 'BUTTON', 'text': '', 'aria': 'Close dialog', 'inDialog': True, 'isDialog': False}"
+      },
+      "has_focusables": {
+        "pass": true,
+        "detail": "count=14"
+      },
+      "tab_trap_forward": {
+        "pass": true,
+        "detail": "escaped after 16 tabs"
+      },
+      "tab_trap_backward": {
+        "pass": true,
+        "detail": "escaped after 16 shift+tabs"
+      },
+      "accessible_name_resolves": {
+        "pass": true,
+        "detail": "labelledby=['code-modal-title-starfield'] \u2192 name='Starfield Night \u2014 code and preview'"
+      },
+      "close_button_named": {
+        "pass": true,
+        "detail": "aria-label='Close dialog'"
+      },
+      "tab_semantics": {
+        "pass": true,
+        "detail": "{\"ok\": true, \"tabs\": 2, \"selected\": 1, \"panelId\": \"nova-code-panel\", \"labelled\": \"nova-code-tab-react\"}"
+      },
+      "export_aria_expanded": {
+        "pass": true,
+        "detail": "closed='false' open='true' menuCount=1"
+      },
+      "export_escape_closes_menu_only": {
+        "pass": true,
+        "detail": "{\"dialogVisible\": true, \"menuCount\": 0, \"expanded\": \"false\"}"
+      },
+      "escape_closes": {
+        "pass": true,
+        "detail": ""
+      },
+      "focus_restored_to_trigger": {
+        "pass": true,
+        "detail": "restored=True"
+      }
+    },
+    "errors": [],
+    "pass": true
+  }
+]

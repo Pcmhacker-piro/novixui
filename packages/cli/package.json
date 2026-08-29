@@ -1,0 +1,35 @@
+{
+  "name": "@novix-ui/cli",
+  "version": "1.0.1",
+  "description": "CLI for installing and managing Novix UI components.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "novix": "dist/index.js",
+    "novix-ui": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "registry"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "kleur": "^4.1.5",
+    "prompts": "^2.4.2",
+    "ora": "^8.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/novix-ui/novix-ui.git",
+    "directory": "packages/cli"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

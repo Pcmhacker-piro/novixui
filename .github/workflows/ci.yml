@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality:
+    name: Quality Gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - name: Typecheck
+        run: bunx tsgo --noEmit
+      - name: Lint
+        run: bun run lint
+      - name: Unit tests
+        run: bunx vitest run --coverage
+      - name: Production build
+        run: bun run build
+      - name: Docs hydration check
+        run: |
+          set -euo pipefail
+          bun run preview --port 8080 > /tmp/preview.log 2>&1 &
+          PREVIEW_PID=$!
+          echo "PREVIEW_PID=$PREVIEW_PID" >> "$GITHUB_ENV"
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:8080/docs > /dev/null; then
+              echo "preview ready"; break
+            fi
+            sleep 1
+          done
+          curl -sf http://localhost:8080/docs > /dev/null || { echo "preview never came up"; cat /tmp/preview.log; exit 1; }
+          python3 -m pip install --quiet playwright
+          python3 -m playwright install --with-deps chromium
+          python3 tests/integration/docs-hydration.py
+      - name: Stop preview
+        if: always()
+        run: kill "${PREVIEW_PID}" 2>/dev/null || true
+      - name: Upload hydration failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-hydration-failures
+          path: tests/integration/out-docs-hydration
+          if-no-files-found: ignore
+      - name: Storybook build
+        run: bun run build-storybook --quiet
+      - name: Package validate
+        run: bunx publint && bunx @arethetypeswrong/cli --pack .
+
+
+  release-preview:
+    name: Release Preview
+    needs: quality
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - name: Pack preview
+        run: bun run build && npm pack --dry-run

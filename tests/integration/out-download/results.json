@@ -1,0 +1,353 @@
+[
+  {
+    "category": "Buttons",
+    "kind": "react",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": "name='m12'"
+      },
+      "download_fires": {
+        "pass": true,
+        "detail": ""
+      },
+      "filename_matches": {
+        "pass": true,
+        "detail": "expected=m12.tsx got=m12.tsx"
+      },
+      "file_nonempty": {
+        "pass": true,
+        "detail": "bytes=350"
+      },
+      "content_matches_pane": {
+        "pass": true,
+        "detail": "expected_len=349 got_len=349"
+      },
+      "export_menu_closes": {
+        "pass": true,
+        "detail": "menu_present=False"
+      },
+      "dialog_still_open": {
+        "pass": true,
+        "detail": ""
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Buttons",
+    "kind": "css",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": "name='m12'"
+      },
+      "download_fires": {
+        "pass": true,
+        "detail": ""
+      },
+      "filename_matches": {
+        "pass": true,
+        "detail": "expected=m12.css got=m12.css"
+      },
+      "file_nonempty": {
+        "pass": true,
+        "detail": "bytes=541"
+      },
+      "content_matches_pane": {
+        "pass": true,
+        "detail": "expected_len=541 got_len=541"
+      },
+      "export_menu_closes": {
+        "pass": true,
+        "detail": "menu_present=False"
+      },
+      "dialog_still_open": {
+        "pass": true,
+        "detail": ""
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Buttons",
+    "kind": "html",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": "name='m12'"
+      },
+      "download_fires": {
+        "pass": true,
+        "detail": ""
+      },
+      "filename_matches": {
+        "pass": true,
+        "detail": "expected=m12.html got=m12.html"
+      },
+      "file_nonempty": {
+        "pass": true,
+        "detail": "bytes=602"
+      },
+      "has_doctype": {
+        "pass": true,
+        "detail": "len(body)=602"
+      },
+      "title_has_name": {
+        "pass": true,
+        "detail": "len(body)=602"
+      },
+      "wraps_react_snippet": {
+        "pass": true,
+        "detail": "len(body)=602"
+      },
+      "has_html_shell": {
+        "pass": true,
+        "detail": "len(body)=602"
+      },
+      "export_menu_closes": {
+        "pass": true,
+        "detail": "menu_present=False"
+      },
+      "dialog_still_open": {
+        "pass": true,
+        "detail": ""
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Checkboxes",
+    "kind": "react",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": "name='Confetti Pop'"
+      },
+      "download_fires": {
+        "pass": true,
+        "detail": ""
+      },
+      "filename_matches": {
+        "pass": true,
+        "detail": "expected=confetti-pop.tsx got=confetti-pop.tsx"
+      },
+      "file_nonempty": {
+        "pass": true,
+        "detail": "bytes=1405"
+      },
+      "content_matches_pane": {
+        "pass": true,
+        "detail": "expected_len=1404 got_len=1404"
+      },
+      "export_menu_closes": {
+        "pass": true,
+        "detail": "menu_present=False"
+      },
+      "dialog_still_open": {
+        "pass": true,
+        "detail": ""
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Checkboxes",
+    "kind": "css",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": "name='Confetti Pop'"
+      },
+      "download_fires": {
+        "pass": true,
+        "detail": ""
+      },
+      "filename_matches": {
+        "pass": true,
+        "detail": "expected=confetti-pop.css got=confetti-pop.css"
+      },
+      "file_nonempty": {
+        "pass": true,
+        "detail": "bytes=550"
+      },
+      "content_matches_pane": {
+        "pass": true,
+        "detail": "expected_len=550 got_len=550"
+      },
+      "export_menu_closes": {
+        "pass": true,
+        "detail": "menu_present=False"
+      },
+      "dialog_still_open": {
+        "pass": true,
+        "detail": ""
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Checkboxes",
+    "kind": "html",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": "name='Confetti Pop'"
+      },
+      "download_fires": {
+        "pass": true,
+        "detail": ""
+      },
+      "filename_matches": {
+        "pass": true,
+        "detail": "expected=confetti-pop.html got=confetti-pop.html"
+      },
+      "file_nonempty": {
+        "pass": true,
+        "detail": "bytes=1675"
+      },
+      "has_doctype": {
+        "pass": true,
+        "detail": "len(body)=1675"
+      },
+      "title_has_name": {
+        "pass": true,
+        "detail": "len(body)=1675"
+      },
+      "wraps_react_snippet": {
+        "pass": true,
+        "detail": "len(body)=1675"
+      },
+      "has_html_shell": {
+        "pass": true,
+        "detail": "len(body)=1675"
+      },
+      "export_menu_closes": {
+        "pass": true,
+        "detail": "menu_present=False"
+      },
+      "dialog_still_open": {
+        "pass": true,
+        "detail": ""
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Cards",
+    "kind": "react",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": "name='Starfield Night'"
+      },
+      "download_fires": {
+        "pass": true,
+        "detail": ""
+      },
+      "filename_matches": {
+        "pass": true,
+        "detail": "expected=starfield-night.tsx got=starfield-night.tsx"
+      },
+      "file_nonempty": {
+        "pass": true,
+        "detail": "bytes=813"
+      },
+      "content_matches_pane": {
+        "pass": true,
+        "detail": "expected_len=813 got_len=813"
+      },
+      "export_menu_closes": {
+        "pass": true,
+        "detail": "menu_present=False"
+      },
+      "dialog_still_open": {
+        "pass": true,
+        "detail": ""
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Cards",
+    "kind": "css",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": "name='Starfield Night'"
+      },
+      "download_fires": {
+        "pass": true,
+        "detail": ""
+      },
+      "filename_matches": {
+        "pass": true,
+        "detail": "expected=starfield-night.css got=starfield-night.css"
+      },
+      "file_nonempty": {
+        "pass": true,
+        "detail": "bytes=553"
+      },
+      "content_matches_pane": {
+        "pass": true,
+        "detail": "expected_len=553 got_len=553"
+      },
+      "export_menu_closes": {
+        "pass": true,
+        "detail": "menu_present=False"
+      },
+      "dialog_still_open": {
+        "pass": true,
+        "detail": ""
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Cards",
+    "kind": "html",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": "name='Starfield Night'"
+      },
+      "download_fires": {
+        "pass": true,
+        "detail": ""
+      },
+      "filename_matches": {
+        "pass": true,
+        "detail": "expected=starfield-night.html got=starfield-night.html"
+      },
+      "file_nonempty": {
+        "pass": true,
+        "detail": "bytes=1089"
+      },
+      "has_doctype": {
+        "pass": true,
+        "detail": "len(body)=1089"
+      },
+      "title_has_name": {
+        "pass": true,
+        "detail": "len(body)=1089"
+      },
+      "wraps_react_snippet": {
+        "pass": true,
+        "detail": "len(body)=1089"
+      },
+      "has_html_shell": {
+        "pass": true,
+        "detail": "len(body)=1089"
+      },
+      "export_menu_closes": {
+        "pass": true,
+        "detail": "menu_present=False"
+      },
+      "dialog_still_open": {
+        "pass": true,
+        "detail": ""
+      }
+    },
+    "errors": []
+  }
+]

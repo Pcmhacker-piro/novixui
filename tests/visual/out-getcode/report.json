@@ -1,0 +1,107 @@
+[
+  {
+    "category": "Buttons",
+    "surface": "button",
+    "pixel_diff_pct": 9.42,
+    "box_drift_px": null,
+    "pass": false
+  },
+  {
+    "category": "Buttons",
+    "surface": "modal",
+    "pixel_diff_pct": 0.058,
+    "box_drift_px": null,
+    "pass": true
+  },
+  {
+    "category": "Buttons",
+    "surface": "header",
+    "pixel_diff_pct": 0.0,
+    "box_drift_px": null,
+    "pass": true
+  },
+  {
+    "category": "Buttons",
+    "surface": "code",
+    "pixel_diff_pct": 0.0,
+    "box_drift_px": null,
+    "pass": true
+  },
+  {
+    "category": "Buttons",
+    "surface": "preview",
+    "pixel_diff_pct": 0.205,
+    "box_drift_px": null,
+    "pass": true
+  },
+  {
+    "category": "Checkboxes",
+    "surface": "button",
+    "pixel_diff_pct": 0.0,
+    "box_drift_px": null,
+    "pass": true
+  },
+  {
+    "category": "Checkboxes",
+    "surface": "modal",
+    "pixel_diff_pct": 2.274,
+    "box_drift_px": null,
+    "pass": false
+  },
+  {
+    "category": "Checkboxes",
+    "surface": "header",
+    "pixel_diff_pct": 0.468,
+    "box_drift_px": null,
+    "pass": true
+  },
+  {
+    "category": "Checkboxes",
+    "surface": "code",
+    "pixel_diff_pct": 5.281,
+    "box_drift_px": null,
+    "pass": false
+  },
+  {
+    "category": "Checkboxes",
+    "surface": "preview",
+    "pixel_diff_pct": 0.414,
+    "box_drift_px": null,
+    "pass": true
+  },
+  {
+    "category": "Toggles",
+    "surface": "button",
+    "pixel_diff_pct": 12.074,
+    "box_drift_px": null,
+    "pass": false
+  },
+  {
+    "category": "Toggles",
+    "surface": "modal",
+    "pixel_diff_pct": 0.0,
+    "box_drift_px": null,
+    "pass": true
+  },
+  {
+    "category": "Toggles",
+    "surface": "header",
+    "pixel_diff_pct": 0.004,
+    "box_drift_px": null,
+    "pass": true
+  },
+  {
+    "category": "Toggles",
+    "surface": "code",
+    "pixel_diff_pct": 0.0,
+    "box_drift_px": null,
+    "pass": true
+  },
+  {
+    "category": "Toggles",
+    "surface": "preview",
+    "pixel_diff_pct": 0.0,
+    "box_drift_px": null,
+    "pass": true
+  }
+]

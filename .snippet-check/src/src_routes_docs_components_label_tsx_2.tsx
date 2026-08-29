@@ -1,0 +1,1 @@
+import { Label } from "@novix-ui/react";

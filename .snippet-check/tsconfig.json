@@ -1,0 +1,25 @@
+{
+  "extends": "../tsconfig.json",
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.js",
+    "src/**/*.jsx"
+  ],
+  "compilerOptions": {
+    "noEmit": true,
+    "allowJs": true,
+    "checkJs": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "paths": {
+      "@/*": [
+        "../src/*"
+      ],
+      "@novix-ui/*": [
+        "../src/nova/*"
+      ]
+    },
+    "skipLibCheck": true
+  }
+}

@@ -1,0 +1,16 @@
+/* m12 — Novix UI
+ * Wire-up hint: this component uses Tailwind utilities and inline styles.
+ * The .tsx tab has the full source you can drop into your project.
+ */
+.nova-btn {
+  position: relative;
+  isolation: isolate;
+  border-radius: 12px;
+  transition: transform .2s cubic-bezier(0.16,1,0.3,1),
+              box-shadow .3s ease;
+}
+.nova-btn:hover  { transform: translateY(-1px); }
+.nova-btn:active { transform: translateY(1px); }
+@media (prefers-reduced-motion: reduce) {
+  .nova-btn { transition: none; transform: none !important; }
+}

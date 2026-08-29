@@ -1,0 +1,308 @@
+[
+  {
+    "category": "Buttons",
+    "motion": "no-preference",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": ""
+      },
+      "trigger_is_button": {
+        "pass": true,
+        "detail": "tag=BUTTON"
+      },
+      "trigger_type_button": {
+        "pass": true,
+        "detail": "type=button"
+      },
+      "trigger_has_name": {
+        "pass": true,
+        "detail": "name='Get code'"
+      },
+      "trigger_keyboard_reachable": {
+        "pass": true,
+        "detail": "tabbable=True"
+      },
+      "dialog_role": {
+        "pass": true,
+        "detail": "role='dialog'"
+      },
+      "dialog_aria_modal": {
+        "pass": true,
+        "detail": "aria-modal='true'"
+      },
+      "dialog_labelledby_resolves": {
+        "pass": true,
+        "detail": "ids=['code-modal-title-m12'] name='m12 \u2014 code and preview'"
+      },
+      "focus_moved_into_dialog": {
+        "pass": true,
+        "detail": "activeElement={'inDialog': True, 'tag': 'BUTTON', 'ariaLabel': 'Close dialog'}"
+      },
+      "escape_closes_dialog": {
+        "pass": true,
+        "detail": "dialog_present=False"
+      },
+      "focus_restored_to_trigger": {
+        "pass": true,
+        "detail": "restored=True"
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Checkboxes",
+    "motion": "no-preference",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": ""
+      },
+      "trigger_is_button": {
+        "pass": true,
+        "detail": "tag=BUTTON"
+      },
+      "trigger_type_button": {
+        "pass": true,
+        "detail": "type=button"
+      },
+      "trigger_has_name": {
+        "pass": true,
+        "detail": "name='Confetti Pop \u2014 view code'"
+      },
+      "trigger_keyboard_reachable": {
+        "pass": true,
+        "detail": "tabbable=True"
+      },
+      "dialog_role": {
+        "pass": true,
+        "detail": "role='dialog'"
+      },
+      "dialog_aria_modal": {
+        "pass": true,
+        "detail": "aria-modal='true'"
+      },
+      "dialog_labelledby_resolves": {
+        "pass": true,
+        "detail": "ids=['code-modal-title-confetti-pop'] name='Confetti Pop \u2014 code and preview'"
+      },
+      "focus_moved_into_dialog": {
+        "pass": true,
+        "detail": "activeElement={'inDialog': True, 'tag': 'BUTTON', 'ariaLabel': 'Close dialog'}"
+      },
+      "escape_closes_dialog": {
+        "pass": true,
+        "detail": "dialog_present=False"
+      },
+      "focus_restored_to_trigger": {
+        "pass": true,
+        "detail": "restored=True"
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Cards",
+    "motion": "no-preference",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": ""
+      },
+      "trigger_is_button": {
+        "pass": true,
+        "detail": "tag=BUTTON"
+      },
+      "trigger_type_button": {
+        "pass": true,
+        "detail": "type=button"
+      },
+      "trigger_has_name": {
+        "pass": true,
+        "detail": "name='Starfield Night \u2014 view code'"
+      },
+      "trigger_keyboard_reachable": {
+        "pass": true,
+        "detail": "tabbable=True"
+      },
+      "dialog_role": {
+        "pass": true,
+        "detail": "role='dialog'"
+      },
+      "dialog_aria_modal": {
+        "pass": true,
+        "detail": "aria-modal='true'"
+      },
+      "dialog_labelledby_resolves": {
+        "pass": true,
+        "detail": "ids=['code-modal-title-starfield'] name='Starfield Night \u2014 code and preview'"
+      },
+      "focus_moved_into_dialog": {
+        "pass": true,
+        "detail": "activeElement={'inDialog': True, 'tag': 'BUTTON', 'ariaLabel': 'Close dialog'}"
+      },
+      "escape_closes_dialog": {
+        "pass": true,
+        "detail": "dialog_present=False"
+      },
+      "focus_restored_to_trigger": {
+        "pass": true,
+        "detail": "restored=True"
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Buttons",
+    "motion": "reduce",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": ""
+      },
+      "trigger_is_button": {
+        "pass": true,
+        "detail": "tag=BUTTON"
+      },
+      "trigger_type_button": {
+        "pass": true,
+        "detail": "type=button"
+      },
+      "trigger_has_name": {
+        "pass": true,
+        "detail": "name='Get code'"
+      },
+      "trigger_keyboard_reachable": {
+        "pass": true,
+        "detail": "tabbable=True"
+      },
+      "dialog_role": {
+        "pass": true,
+        "detail": "role='dialog'"
+      },
+      "dialog_aria_modal": {
+        "pass": true,
+        "detail": "aria-modal='true'"
+      },
+      "dialog_labelledby_resolves": {
+        "pass": true,
+        "detail": "ids=['code-modal-title-m12'] name='m12 \u2014 code and preview'"
+      },
+      "focus_moved_into_dialog": {
+        "pass": true,
+        "detail": "activeElement={'inDialog': True, 'tag': 'BUTTON', 'ariaLabel': 'Close dialog'}"
+      },
+      "escape_closes_dialog": {
+        "pass": true,
+        "detail": "dialog_present=False"
+      },
+      "focus_restored_to_trigger": {
+        "pass": true,
+        "detail": "restored=True"
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Checkboxes",
+    "motion": "reduce",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": ""
+      },
+      "trigger_is_button": {
+        "pass": true,
+        "detail": "tag=BUTTON"
+      },
+      "trigger_type_button": {
+        "pass": true,
+        "detail": "type=button"
+      },
+      "trigger_has_name": {
+        "pass": true,
+        "detail": "name='Confetti Pop \u2014 view code'"
+      },
+      "trigger_keyboard_reachable": {
+        "pass": true,
+        "detail": "tabbable=True"
+      },
+      "dialog_role": {
+        "pass": true,
+        "detail": "role='dialog'"
+      },
+      "dialog_aria_modal": {
+        "pass": true,
+        "detail": "aria-modal='true'"
+      },
+      "dialog_labelledby_resolves": {
+        "pass": true,
+        "detail": "ids=['code-modal-title-confetti-pop'] name='Confetti Pop \u2014 code and preview'"
+      },
+      "focus_moved_into_dialog": {
+        "pass": true,
+        "detail": "activeElement={'inDialog': True, 'tag': 'BUTTON', 'ariaLabel': 'Close dialog'}"
+      },
+      "escape_closes_dialog": {
+        "pass": true,
+        "detail": "dialog_present=False"
+      },
+      "focus_restored_to_trigger": {
+        "pass": true,
+        "detail": "restored=True"
+      }
+    },
+    "errors": []
+  },
+  {
+    "category": "Cards",
+    "motion": "reduce",
+    "checks": {
+      "modal_opens": {
+        "pass": true,
+        "detail": ""
+      },
+      "trigger_is_button": {
+        "pass": true,
+        "detail": "tag=BUTTON"
+      },
+      "trigger_type_button": {
+        "pass": true,
+        "detail": "type=button"
+      },
+      "trigger_has_name": {
+        "pass": true,
+        "detail": "name='Starfield Night \u2014 view code'"
+      },
+      "trigger_keyboard_reachable": {
+        "pass": true,
+        "detail": "tabbable=True"
+      },
+      "dialog_role": {
+        "pass": true,
+        "detail": "role='dialog'"
+      },
+      "dialog_aria_modal": {
+        "pass": true,
+        "detail": "aria-modal='true'"
+      },
+      "dialog_labelledby_resolves": {
+        "pass": true,
+        "detail": "ids=['code-modal-title-starfield'] name='Starfield Night \u2014 code and preview'"
+      },
+      "focus_moved_into_dialog": {
+        "pass": true,
+        "detail": "activeElement={'inDialog': True, 'tag': 'BUTTON', 'ariaLabel': 'Close dialog'}"
+      },
+      "escape_closes_dialog": {
+        "pass": true,
+        "detail": "dialog_present=False"
+      },
+      "focus_restored_to_trigger": {
+        "pass": true,
+        "detail": "restored=True"
+      }
+    },
+    "errors": []
+  }
+]

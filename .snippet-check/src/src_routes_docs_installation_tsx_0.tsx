@@ -1,0 +1,1 @@
+import "@novix-ui/react/styles.css";
