@@ -55,15 +55,16 @@ import { CodeModal, type CodeModalItem } from "@/components/elements/code-modal"
 import { z } from "zod";
 
 const elementsSearchSchema = z.object({
-  category: z.string().default("All"),
-  tag: z.enum(["All", "React", "CSS", "Tailwind"]).default("All"),
-  q: z.string().default(""),
-  sort: z.enum(["Featured", "Name A–Z", "Name Z–A", "Newest"]).default("Featured"),
-  tile: z.string().default(""),
-  item: z.string().default(""),
+  category: z.string().optional(),
+  tag: z.enum(["All", "React", "CSS", "Tailwind"]).optional(),
+  q: z.string().optional(),
+  sort: z.enum(["Featured", "Name A–Z", "Name Z–A", "Newest"]).optional(),
+  tile: z.string().optional(),
+  item: z.string().optional(),
 });
 
 export type ElementsSearch = z.infer<typeof elementsSearchSchema>;
+
 
 export const Route = createFileRoute("/elements")({
   validateSearch: elementsSearchSchema,
@@ -179,23 +180,34 @@ function applyFilterSort<T extends { id: string; name: string; code?: string; ta
 }
 
 
+function cleanSearch(patch: Record<string, unknown>, current: Record<string, unknown> = {}) {
+  const next: Record<string, unknown> = { ...current, ...patch };
+  if (!next.category || next.category === "All") delete next.category;
+  if (!next.tag || next.tag === "All") delete next.tag;
+  if (!next.q || (typeof next.q === "string" && !next.q.trim())) delete next.q;
+  if (!next.sort || next.sort === "Featured") delete next.sort;
+  if (!next.tile) delete next.tile;
+  if (!next.item) delete next.item;
+  return next;
+}
+
 function ElementsPage() {
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
-  const active = search.category as SidebarKey;
-  const tag = search.tag;
-  const q = search.q;
-  const sort = search.sort;
-  const itemId = search.item;
+  const active = (search.category || "All") as SidebarKey;
+  const tag = search.tag || "All";
+  const q = search.q || "";
+  const sort = (search.sort || "Featured") as SortKey;
+  const itemId = search.item || "";
 
   const setSearch = (patch: Record<string, unknown>) =>
-    navigate({ search: (p: Record<string, unknown>) => ({ ...p, ...patch }) });
+    navigate({ search: (p: Record<string, unknown>) => cleanSearch(patch, p) });
 
-  const clearItem = () => setSearch({ item: "" });
+  const clearItem = () => setSearch({ item: undefined });
 
   // Chip toggles the query — click to filter, click again to clear.
   const toggleChip = (chip: string) =>
-    setSearch({ q: q.trim().toLowerCase() === chip ? "" : chip });
+    setSearch({ q: q.trim().toLowerCase() === chip ? undefined : chip });
 
   // Categories in CREATIONS: Buttons, Loaders, Toggles, Checkboxes, Cards, Inputs, Tooltips.
   // Unmapped sidebar entries (UI Kits, Radio buttons, Forms, Patterns) show a friendly empty state.
@@ -241,7 +253,9 @@ function ElementsPage() {
                 <Link
                   key={label}
                   to="/elements"
-                  search={(prev: Record<string, unknown>) => ({ ...prev, category: label })}
+                  search={(prev: Record<string, unknown>) =>
+                    cleanSearch({ category: label === "All" ? undefined : label }, prev)
+                  }
                   className={
                     "flex items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-[14px] transition-all duration-200 " +
                     (isActive
@@ -654,7 +668,6 @@ function EmptyState({ label }: { label: string }) {
       </p>
       <Link
         to="/elements"
-        search={{ category: "All", tag: "All", q: "" }}
         className="mt-5 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-[13px] font-semibold text-white transition-transform hover:-translate-y-0.5"
       >
         Browse all elements

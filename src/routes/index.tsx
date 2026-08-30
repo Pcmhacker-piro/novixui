@@ -865,7 +865,7 @@ function ElementsMosaic() {
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  navigate({ to: "/elements", search: { category: t.category, tag: "All", q: "", sort: "Featured", tile: t.id } });
+                  navigate({ to: "/elements", search: { category: t.category, tile: t.id } });
                 }
               }}
               onClick={(e) => {
@@ -879,7 +879,7 @@ function ElementsMosaic() {
                 window.setTimeout(() => el.classList.remove("is-pressed"), 260);
                 window.setTimeout(() => {
                   el.classList.remove("is-active");
-                  navigate({ to: "/elements", search: { category: t.category, tag: "All", q: "", sort: "Featured", tile: t.id } });
+                  navigate({ to: "/elements", search: { category: t.category, tile: t.id } });
                 }, 260);
               }}
 
