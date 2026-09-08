@@ -1185,7 +1185,15 @@ function ChallengesHeader({ onSubmitClick }: { onSubmitClick: () => void }) {
           <IconButton
             aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`}
             onClick={toggle}
-            icon={resolvedTheme === "dark" ? <Sun /> : <Moon />}
+            variant="ghost"
+            icon={
+              resolvedTheme === "dark" ? (
+                <Sun size={16} className="text-amber-400" />
+              ) : (
+                <Moon size={16} className="text-indigo-600" />
+              )
+            }
+            className="border border-border/80 bg-subtle/80 text-foreground transition-colors hover:bg-muted dark:border-white/10 dark:bg-white/[0.04] dark:text-white"
           />
           <Button
             size="sm"
@@ -1196,7 +1204,7 @@ function ChallengesHeader({ onSubmitClick }: { onSubmitClick: () => void }) {
           >
             <span className="hidden xs:inline sm:inline">Submit</span> Entry
           </Button>
-          <Button size="sm" variant="secondary" asChild className="hidden sm:inline-flex rounded-full">
+          <Button size="sm" variant="secondary" asChild className="hidden sm:inline-flex rounded-full border border-border/80 shadow-xs bg-surface-elevated text-foreground hover:bg-subtle">
             <Link to="/">Back to Home</Link>
           </Button>
         </div>

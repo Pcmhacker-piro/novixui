@@ -21,6 +21,9 @@ function LoginTemplate() {
         <Card className="mx-auto w-full max-w-sm p-6">
           <p className="text-center text-base font-semibold">Sign in</p>
           <div className="mt-4 grid gap-2">
+            <Button variant="outline" leadingIcon={<span className="font-bold text-accent">G</span>} asChild>
+              <a href="/auth?mode=signin">Continue with Google (Live)</a>
+            </Button>
             <Button variant="outline" leadingIcon={<Github className="size-4" />}>Continue with GitHub</Button>
             <Button variant="outline" leadingIcon={<Mail className="size-4" />}>Continue with Email</Button>
           </div>

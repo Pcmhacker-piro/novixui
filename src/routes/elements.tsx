@@ -45,11 +45,16 @@ import {
   MousePointer2,
   Search as SearchIcon,
   Sparkles,
+  Sliders,
   ToggleRight,
   Waves,
   Filter,
+  Grid3X3,
+  SlidersHorizontal,
+  Sun,
+  Moon,
 } from "lucide-react";
-import { Badge } from "@/nova";
+import { Badge, IconButton, useTheme } from "@/nova";
 import { CREATIONS, CreationTile, MOSAIC_TILES, type Category, type Creation } from "@/data/landing-creations";
 import { CodeModal, type CodeModalItem } from "@/components/elements/code-modal";
 import { z } from "zod";
@@ -257,20 +262,20 @@ function ElementsPage() {
                     cleanSearch({ category: label === "All" ? undefined : label }, prev)
                   }
                   className={
-                    "flex items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-[14px] transition-all duration-200 " +
+                    "flex items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-[14px] font-medium transition-all duration-200 " +
                     (isActive
-                      ? "bg-white/[0.06] text-white ring-1 ring-white/10"
-                      : "text-white/70 hover:bg-white/[0.04] hover:text-white")
+                      ? "bg-accent/15 text-accent font-semibold ring-1 ring-accent/30 dark:bg-white/[0.06] dark:text-white dark:ring-white/10"
+                      : "text-muted-foreground hover:bg-subtle hover:text-foreground dark:text-white/70 dark:hover:bg-white/[0.04] dark:hover:text-white")
                   }
                 >
                   <span className="flex items-center gap-3">
-                    <Icon size={17} className={isActive ? "text-accent" : "text-white/60"} />
-                    <span className="font-medium">{label}</span>
+                    <Icon size={17} className={isActive ? "text-accent" : "text-muted-foreground dark:text-white/60"} />
+                    <span>{label}</span>
                   </span>
                   {badge ? (
-                    <span className="text-[12px] font-semibold text-rose-400">{badge}</span>
+                    <span className="text-[12px] font-semibold text-rose-500 dark:text-rose-400">{badge}</span>
                   ) : count !== undefined ? (
-                    <span className="text-[12px] tabular-nums text-white/40">
+                    <span className="text-[12px] tabular-nums text-muted-foreground/80 dark:text-white/40">
                       {count.toLocaleString()}
                     </span>
                   ) : null}
@@ -282,48 +287,76 @@ function ElementsPage() {
 
         {/* Content */}
         <section className="min-w-0 flex-1">
+          {/* Mobile category navigation bar */}
+          <div className="flex md:hidden items-center gap-1.5 overflow-x-auto pb-3 mb-6 no-scrollbar">
+            {SIDEBAR.map(({ label, icon: Icon, count }) => {
+              const isActive = active === label;
+              return (
+                <Link
+                  key={label}
+                  to="/elements"
+                  search={(prev: Record<string, unknown>) =>
+                    cleanSearch({ category: label === "All" ? undefined : label }, prev)
+                  }
+                  className={
+                    "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors border " +
+                    (isActive
+                      ? "border-accent/40 bg-accent/15 text-accent font-semibold dark:border-white/20 dark:bg-white/10 dark:text-white"
+                      : "border-border/80 bg-subtle/80 text-muted-foreground hover:bg-subtle hover:text-foreground dark:border-white/10 dark:bg-white/[0.03] dark:text-white/70")
+                  }
+                >
+                  <Icon size={13} className={isActive ? "text-accent" : "text-muted-foreground dark:text-white/60"} />
+                  <span>{label}</span>
+                  {count !== undefined && (
+                    <span className="text-[10px] opacity-70">
+                      {count}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+
           <header className="mb-6">
-            <h1 className="font-display text-3xl font-semibold tracking-[-0.02em] md:text-4xl">
+            <h1 className="font-display text-3xl font-semibold tracking-[-0.02em] md:text-4xl text-foreground">
               {active === "All" ? "Browse all" : active}
             </h1>
-            <p className="mt-2 text-[14px] text-white/60">
+            <p className="mt-2 text-[14px] text-muted-foreground dark:text-white/60">
               Open-source UI elements crafted with React, CSS, and Tailwind.
             </p>
           </header>
 
-
-
           {/* Filter bar */}
-          <div className="mb-8 flex flex-col gap-3 rounded-2xl border border-white/8 bg-white/[0.02] p-3 md:flex-row md:items-center md:justify-between">
+          <div className="mb-8 flex flex-col gap-3 rounded-2xl border border-border bg-subtle/40 p-3 md:flex-row md:items-center md:justify-between dark:border-white/8 dark:bg-white/[0.02]">
             <div />
 
             <div className="flex flex-wrap items-center gap-2">
-              <label className="flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[12px] text-white/60">
+              <label className="flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-[12px] text-muted-foreground dark:border-white/10 dark:bg-white/[0.03] dark:text-white/60">
                 <Filter size={12} />
                 <span>Sort:</span>
                 <select
                   value={sort}
                   onChange={(e) => setSearch({ sort: e.target.value as SortKey })}
-                  className="cursor-pointer appearance-none bg-transparent text-white focus:outline-none"
+                  className="cursor-pointer appearance-none bg-transparent text-foreground focus:outline-none dark:text-white"
                 >
                   {SORTS.map((s) => (
-                    <option key={s} value={s} className="bg-[#0f0f10]">{s}</option>
+                    <option key={s} value={s} className="bg-background text-foreground dark:bg-[#0f0f10] dark:text-white">{s}</option>
                   ))}
                 </select>
               </label>
-              <div className="hidden items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[12px] text-white/60 md:flex">
+              <div className="hidden items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-[12px] text-muted-foreground md:flex dark:border-white/10 dark:bg-white/[0.03] dark:text-white/60">
                 <SearchIcon size={12} />
                 <input
                   value={q}
                   onChange={(e) => setSearch({ q: e.target.value })}
                   placeholder="Search name or id…"
-                  className="w-56 bg-transparent text-[12px] text-white placeholder:text-white/40 focus:outline-none"
+                  className="w-56 bg-transparent text-[12px] text-foreground placeholder:text-muted-foreground focus:outline-none dark:text-white dark:placeholder:text-white/40"
                 />
                 {q && (
                   <button
                     onClick={() => setSearch({ q: "" })}
                     aria-label="Clear search"
-                    className="text-white/40 transition-colors hover:text-white"
+                    className="text-muted-foreground transition-colors hover:text-foreground dark:text-white/40 dark:hover:text-white"
                   >
                     <X size={12} />
                   </button>
@@ -448,7 +481,7 @@ function MosaicAnimationStyles() {
   );
 }
 
-/* 3D tilt wrapper — subtle premium parallax */
+/* 3D tilt wrapper — subtle premium parallax with CSS content-visibility optimization */
 function TiltWrap({ children, index }: { children: React.ReactNode; index: number }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const reduce = useReducedMotion();
@@ -473,12 +506,13 @@ function TiltWrap({ children, index }: { children: React.ReactNode; index: numbe
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-8% 0px" }}
-      transition={{ duration: 0.5, delay: (index % 8) * 0.03, ease: [0.16, 1, 0.3, 1] }}
-      style={{ perspective: "1200px" }}
+    <div
+      style={{
+        perspective: "1200px",
+        contentVisibility: "auto",
+        containIntrinsicSize: "320px 300px",
+      }}
+      className="transition-all duration-300"
     >
       <div
         ref={ref}
@@ -502,7 +536,7 @@ function TiltWrap({ children, index }: { children: React.ReactNode; index: numbe
         />
         {children}
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -660,15 +694,15 @@ function MosaicCards({ category, highlightId }: { category: string; highlightId?
 
 function EmptyState({ label }: { label: string }) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/10 bg-white/[0.02] py-24 text-center">
+    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-subtle/40 py-24 text-center dark:border-white/10 dark:bg-white/[0.02]">
       <Sparkles size={22} className="text-accent" />
-      <h3 className="mt-4 font-display text-xl font-semibold">No {label.toLowerCase()} yet</h3>
-      <p className="mt-2 max-w-sm text-[13px] text-white/55">
+      <h3 className="mt-4 font-display text-xl font-semibold text-foreground dark:text-white">No {label.toLowerCase()} yet</h3>
+      <p className="mt-2 max-w-sm text-[13px] text-muted-foreground dark:text-white/60">
         This section is on the way. Explore the rest of the gallery while we craft it.
       </p>
       <Link
         to="/elements"
-        className="mt-5 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-[13px] font-semibold text-white transition-transform hover:-translate-y-0.5"
+        className="mt-5 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-[13px] font-semibold text-accent-foreground transition-transform hover:-translate-y-0.5"
       >
         Browse all elements
       </Link>
@@ -678,10 +712,10 @@ function EmptyState({ label }: { label: string }) {
 
 function NoResults({ q }: { q: string }) {
   return (
-    <div className="flex min-h-[40vh] flex-col items-center justify-center rounded-3xl border border-dashed border-white/10 bg-white/[0.02] p-10 text-center">
+    <div className="flex min-h-[40vh] flex-col items-center justify-center rounded-3xl border border-dashed border-border bg-subtle/40 p-10 text-center dark:border-white/10 dark:bg-white/[0.02]">
       <SearchIcon size={22} className="text-accent" />
-      <h3 className="mt-4 font-display text-xl font-semibold">No matches</h3>
-      <p className="mt-2 max-w-sm text-[13px] text-white/55">
+      <h3 className="mt-4 font-display text-xl font-semibold text-foreground dark:text-white">No matches</h3>
+      <p className="mt-2 max-w-sm text-[13px] text-muted-foreground dark:text-white/60">
         {q ? <>Nothing matches “{q}”. Try a different query or clear filters.</> : "Try a different filter."}
       </p>
     </div>
@@ -691,31 +725,37 @@ function NoResults({ q }: { q: string }) {
 
 function ElementsHeader() {
   const [q, setQ] = useState("");
+  const { resolvedTheme, toggle } = useTheme();
   return (
-    <header className="sticky top-0 z-40 border-b border-white/8 bg-background/70 backdrop-blur-xl dark:bg-[#050505]/70">
+    <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-xl shadow-xs dark:border-white/8 dark:bg-[#050505]/80">
       <div className="mx-auto flex h-16 w-full max-w-[1400px] items-center justify-between px-6 lg:px-8">
-        <Link to="/" className="flex items-center gap-2 pl-1 md:pl-2">
-          <span className="font-display text-[21px] font-bold tracking-tight">
-            novix<span className="text-accent">ui</span>
-          </span>
-        </Link>
-        <div className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 md:flex">
-          <SearchIcon size={13} className="text-white/50" />
+        <div className="flex items-center">
+          <Link to="/" className="flex items-center gap-2">
+            <span className="font-display text-[21px] font-bold tracking-tight text-foreground dark:text-white">
+              novix<span className="text-accent">ui</span>
+            </span>
+          </Link>
+        </div>
+
+        <div className="hidden items-center gap-2 rounded-full border border-border bg-subtle/60 px-3 py-1.5 md:flex focus-within:border-accent focus-within:bg-background dark:border-white/10 dark:bg-white/[0.03]">
+          <SearchIcon size={13} className="text-muted-foreground dark:text-white/50" />
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search elements"
-            className="w-72 bg-transparent text-[13px] text-white placeholder:text-white/40 focus:outline-none"
+            className="w-72 bg-transparent text-[13px] text-foreground placeholder:text-muted-foreground focus:outline-none dark:text-white dark:placeholder:text-white/40"
           />
         </div>
-        <div className="flex items-center gap-2">
-          <Link
-            to="/"
-            className="rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-[13px] text-white/70 transition-colors hover:text-white"
-          >
-            Back to home
-          </Link>
-          <Badge variant="outline" size="sm" className="hidden sm:inline-flex">
+
+        <div className="flex items-center gap-2.5">
+          <IconButton
+            aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "night"} mode`}
+            onClick={toggle}
+            variant="ghost"
+            icon={resolvedTheme === "dark" ? <Sun size={16} className="text-amber-400" /> : <Moon size={16} className="text-indigo-600" />}
+            className="border border-border bg-subtle/80 text-foreground hover:bg-muted dark:border-white/10 dark:bg-white/[0.04] dark:text-white"
+          />
+          <Badge variant="outline" size="sm" className="hidden sm:inline-flex border-border text-foreground font-medium">
             v2.4
           </Badge>
         </div>
@@ -724,42 +764,155 @@ function ElementsHeader() {
   );
 }
 
+/* ---------- Progressive Loading Hook for high-performance instant gallery rendering ---------- */
+function useProgressiveItems<T>(items: T[], limit?: number, pageSize: number = 24) {
+  const [count, setCount] = useState(limit ?? pageSize);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    setCount(limit ?? pageSize);
+  }, [limit, items.length, pageSize]);
+
+  useEffect(() => {
+    if (limit || count >= items.length) return;
+    const el = sentinelRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setCount((c) => Math.min(c + pageSize, items.length));
+        }
+      },
+      { rootMargin: "600px 0px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [limit, count, items.length, pageSize]);
+
+  const visibleItems = limit ? items.slice(0, limit) : items.slice(0, count);
+  const hasMore = !limit && count < items.length;
+  const loadMore = () => setCount((c) => Math.min(c + pageSize, items.length));
+
+  return { visibleItems, hasMore, loadMore, sentinelRef, total: items.length };
+}
+
 /* ---------- Buttons Gallery (100 3D premium buttons + code modal) ---------- */
-function ButtonsGallery({ q, sort, mosaic, deepLinkId, onClearDeepLink }: { q: string; sort: SortKey; mosaic?: ReactNode; deepLinkId?: string; onClearDeepLink?: () => void }) {
+function ButtonsGallery({
+  q,
+  sort,
+  mosaic,
+  deepLinkId,
+  onClearDeepLink,
+  limit,
+}: {
+  q: string;
+  sort: SortKey;
+  mosaic?: ReactNode;
+  deepLinkId?: string;
+  onClearDeepLink?: () => void;
+  limit?: number;
+}) {
   const [open, setOpen] = useState<ButtonItem | null>(null);
   const items = useMemo(() => applyFilterSort(BUTTONS, q, sort, "button"), [q, sort]);
   useDeepLink(BUTTONS, deepLinkId, setOpen);
+  const { visibleItems, hasMore, loadMore, sentinelRef, total } = useProgressiveItems(items, limit);
+
   if (items.length === 0) return <NoResults q={q} />;
   return (
     <>
-      <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">{mosaic}
-        {items.map((b, i) => (
+      <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
+        {mosaic}
+        {visibleItems.map((b, i) => (
           <TiltWrap key={b.id} index={i}>
             <ButtonCard item={b} onOpen={() => setOpen(b)} />
           </TiltWrap>
         ))}
       </div>
-      {open && <CodeModal item={open} shareCategory="Buttons" preview={<ButtonCard item={open} onOpen={() => undefined} />} onClose={() => { setOpen(null); onClearDeepLink?.(); }} />}
+      {hasMore && (
+        <div className="mt-8 flex flex-col items-center justify-center gap-2">
+          <div ref={sentinelRef} className="h-4 w-full" />
+          <button
+            type="button"
+            onClick={loadMore}
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-subtle/80 px-5 py-2 text-xs font-medium text-foreground transition-all hover:bg-muted hover:border-border-strong active:scale-95 shadow-xs"
+          >
+            <span>Load more buttons</span>
+            <span className="text-[11px] text-muted-foreground">({visibleItems.length} of {total})</span>
+          </button>
+        </div>
+      )}
+      {open && (
+        <CodeModal
+          item={open}
+          shareCategory="Buttons"
+          preview={<ButtonCard item={open} onOpen={() => undefined} />}
+          onClose={() => {
+            setOpen(null);
+            onClearDeepLink?.();
+          }}
+        />
+      )}
     </>
   );
 }
 
 /* ---------- Checkboxes Gallery ---------- */
-function CheckboxesGallery({ q, sort, mosaic, deepLinkId, onClearDeepLink }: { q: string; sort: SortKey; mosaic?: ReactNode; deepLinkId?: string; onClearDeepLink?: () => void }) {
+function CheckboxesGallery({
+  q,
+  sort,
+  mosaic,
+  deepLinkId,
+  onClearDeepLink,
+  limit,
+}: {
+  q: string;
+  sort: SortKey;
+  mosaic?: ReactNode;
+  deepLinkId?: string;
+  onClearDeepLink?: () => void;
+  limit?: number;
+}) {
   const [open, setOpen] = useState<CheckboxItem | null>(null);
   const items = useMemo(() => applyFilterSort(CHECKBOXES, q, sort, "checkbox"), [q, sort]);
   useDeepLink(CHECKBOXES, deepLinkId, setOpen);
+  const { visibleItems, hasMore, loadMore, sentinelRef, total } = useProgressiveItems(items, limit);
+
   if (items.length === 0) return <NoResults q={q} />;
   return (
     <>
-      <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">{mosaic}
-        {items.map((c, i) => (
+      <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
+        {mosaic}
+        {visibleItems.map((c, i) => (
           <TiltWrap key={c.id} index={i}>
             <CheckboxCard item={c} onOpen={() => setOpen(c)} />
           </TiltWrap>
         ))}
       </div>
-      {open && <CodeModal item={open} shareCategory="Checkboxes" hostAttr="data-cb-hover-host" preview={<CheckboxCard item={open} onOpen={() => undefined} />} onClose={() => { setOpen(null); onClearDeepLink?.(); }} />}
+      {hasMore && (
+        <div className="mt-8 flex flex-col items-center justify-center gap-2">
+          <div ref={sentinelRef} className="h-4 w-full" />
+          <button
+            type="button"
+            onClick={loadMore}
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-subtle/80 px-5 py-2 text-xs font-medium text-foreground transition-all hover:bg-muted hover:border-border-strong active:scale-95 shadow-xs"
+          >
+            <span>Load more checkboxes</span>
+            <span className="text-[11px] text-muted-foreground">({visibleItems.length} of {total})</span>
+          </button>
+        </div>
+      )}
+      {open && (
+        <CodeModal
+          item={open}
+          shareCategory="Checkboxes"
+          hostAttr="data-cb-hover-host"
+          preview={<CheckboxCard item={open} onOpen={() => undefined} />}
+          onClose={() => {
+            setOpen(null);
+            onClearDeepLink?.();
+          }}
+        />
+      )}
     </>
   );
 }
@@ -793,35 +946,86 @@ function CheckboxCard({ item, onOpen }: { item: CheckboxItem; onOpen: () => void
       </div>
       <div className="flex items-center justify-between border-t border-white/8 bg-white/[0.02] px-4 py-2.5">
         <span className="truncate text-[12px] font-medium text-white/70">{item.name}</span>
-        <button
-          type="button"
-          onClick={onOpen}
-          aria-label={`${item.name} — view code`}
-          className="inline-flex cursor-pointer items-center gap-1 rounded-md bg-white/[0.06] px-2 py-1 text-[10.5px] font-mono text-white/60 opacity-0 transition-all duration-300 hover:bg-white/[0.12] hover:text-white focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 group-hover:opacity-100"
-        >
-          {"</>"} Get code
-        </button>
+        <div className="flex items-center gap-1.5 opacity-0 transition-all duration-300 group-hover:opacity-100 focus-within:opacity-100">
+          <button
+            type="button"
+            onClick={onOpen}
+            aria-label={`${item.name} — customize`}
+            className="inline-flex cursor-pointer items-center gap-1 rounded-md bg-accent/15 px-2 py-1 text-[10.5px] font-medium text-accent hover:bg-accent/25 hover:text-white transition-colors"
+          >
+            <Sliders size={11} aria-hidden /> Customize
+          </button>
+          <button
+            type="button"
+            onClick={onOpen}
+            aria-label={`${item.name} — view code`}
+            className="inline-flex cursor-pointer items-center gap-1 rounded-md bg-white/[0.06] px-2 py-1 text-[10.5px] font-mono text-white/70 hover:bg-white/[0.12] hover:text-white transition-colors"
+          >
+            {"</>"} Code
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
 /* ---------- Toggles Gallery ---------- */
-function TogglesGallery({ q, sort, mosaic, deepLinkId, onClearDeepLink }: { q: string; sort: SortKey; mosaic?: ReactNode; deepLinkId?: string; onClearDeepLink?: () => void }) {
+function TogglesGallery({
+  q,
+  sort,
+  mosaic,
+  deepLinkId,
+  onClearDeepLink,
+  limit,
+}: {
+  q: string;
+  sort: SortKey;
+  mosaic?: ReactNode;
+  deepLinkId?: string;
+  onClearDeepLink?: () => void;
+  limit?: number;
+}) {
   const [open, setOpen] = useState<ToggleItem | null>(null);
   const items = useMemo(() => applyFilterSort(TOGGLES, q, sort, "toggle"), [q, sort]);
   useDeepLink(TOGGLES, deepLinkId, setOpen);
+  const { visibleItems, hasMore, loadMore, sentinelRef, total } = useProgressiveItems(items, limit);
+
   if (items.length === 0) return <NoResults q={q} />;
   return (
     <>
-      <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">{mosaic}
-        {items.map((t, i) => (
+      <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
+        {mosaic}
+        {visibleItems.map((t, i) => (
           <TiltWrap key={t.id} index={i}>
             <ToggleCard item={t} onOpen={() => setOpen(t)} />
           </TiltWrap>
         ))}
       </div>
-      {open && <CodeModal item={open} shareCategory="Toggles" hostAttr="data-tg-hover-host" preview={<ToggleCard item={open} onOpen={() => undefined} />} onClose={() => { setOpen(null); onClearDeepLink?.(); }} />}
+      {hasMore && (
+        <div className="mt-8 flex flex-col items-center justify-center gap-2">
+          <div ref={sentinelRef} className="h-4 w-full" />
+          <button
+            type="button"
+            onClick={loadMore}
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-subtle/80 px-5 py-2 text-xs font-medium text-foreground transition-all hover:bg-muted hover:border-border-strong active:scale-95 shadow-xs"
+          >
+            <span>Load more toggles</span>
+            <span className="text-[11px] text-muted-foreground">({visibleItems.length} of {total})</span>
+          </button>
+        </div>
+      )}
+      {open && (
+        <CodeModal
+          item={open}
+          shareCategory="Toggles"
+          hostAttr="data-tg-hover-host"
+          preview={<ToggleCard item={open} onOpen={() => undefined} />}
+          onClose={() => {
+            setOpen(null);
+            onClearDeepLink?.();
+          }}
+        />
+      )}
     </>
   );
 }
@@ -855,14 +1059,24 @@ function ToggleCard({ item, onOpen }: { item: ToggleItem; onOpen: () => void }) 
       </div>
       <div className="flex items-center justify-between border-t border-white/8 bg-white/[0.02] px-4 py-2.5">
         <span className="truncate text-[12px] font-medium text-white/70">{item.name}</span>
-        <button
-          type="button"
-          onClick={onOpen}
-          aria-label={`${item.name} — view code`}
-          className="inline-flex cursor-pointer items-center gap-1 rounded-md bg-white/[0.06] px-2 py-1 text-[10.5px] font-mono text-white/60 opacity-0 transition-all duration-300 hover:bg-white/[0.12] hover:text-white focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 group-hover:opacity-100"
-        >
-          {"</>"} Get code
-        </button>
+        <div className="flex items-center gap-1.5 opacity-0 transition-all duration-300 group-hover:opacity-100 focus-within:opacity-100">
+          <button
+            type="button"
+            onClick={onOpen}
+            aria-label={`${item.name} — customize`}
+            className="inline-flex cursor-pointer items-center gap-1 rounded-md bg-accent/15 px-2 py-1 text-[10.5px] font-medium text-accent hover:bg-accent/25 hover:text-white transition-colors"
+          >
+            <Sliders size={11} aria-hidden /> Customize
+          </button>
+          <button
+            type="button"
+            onClick={onOpen}
+            aria-label={`${item.name} — view code`}
+            className="inline-flex cursor-pointer items-center gap-1 rounded-md bg-white/[0.06] px-2 py-1 text-[10.5px] font-mono text-white/70 hover:bg-white/[0.12] hover:text-white transition-colors"
+          >
+            {"</>"} Code
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -870,42 +1084,131 @@ function ToggleCard({ item, onOpen }: { item: ToggleItem; onOpen: () => void }) 
 
 /* ---------- Shared MiniGallery for Loaders / Radios / Tooltips / Inputs ---------- */
 type MiniItem = { id: string; name: string; render: () => ReactNode; code: string };
-function MiniGallery({ items, hostAttr, q, sort, mosaic, categoryKey, deepLinkId, onClearDeepLink, shareCategory }: { items: MiniItem[]; hostAttr: string; q: string; sort: SortKey; mosaic?: ReactNode; categoryKey?: string; deepLinkId?: string; onClearDeepLink?: () => void; shareCategory?: string }) {
+function MiniGallery({
+  items,
+  hostAttr,
+  q,
+  sort,
+  mosaic,
+  categoryKey,
+  deepLinkId,
+  onClearDeepLink,
+  shareCategory,
+  limit,
+}: {
+  items: MiniItem[];
+  hostAttr: string;
+  q: string;
+  sort: SortKey;
+  mosaic?: ReactNode;
+  categoryKey?: string;
+  deepLinkId?: string;
+  onClearDeepLink?: () => void;
+  shareCategory?: string;
+  limit?: number;
+}) {
   const [open, setOpen] = useState<MiniItem | null>(null);
   const filtered = useMemo(() => applyFilterSort(items, q, sort, categoryKey), [items, q, sort, categoryKey]);
   useDeepLink(items, deepLinkId, setOpen);
+  const { visibleItems, hasMore, loadMore, sentinelRef, total } = useProgressiveItems(filtered, limit);
 
   if (filtered.length === 0) return <NoResults q={q} />;
   return (
     <>
-      <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">{mosaic}
-        {filtered.map((it, i) => (
+      <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
+        {mosaic}
+        {visibleItems.map((it, i) => (
           <TiltWrap key={it.id} index={i}>
             <MiniTile item={it} hostAttr={hostAttr} onOpen={() => setOpen(it)} />
           </TiltWrap>
         ))}
       </div>
-      {open && <CodeModal item={open} shareCategory={shareCategory} hostAttr={hostAttr} preview={<MiniTile item={open} hostAttr={hostAttr} onOpen={() => undefined} />} onClose={() => { setOpen(null); onClearDeepLink?.(); }} />}
+      {hasMore && (
+        <div className="mt-8 flex flex-col items-center justify-center gap-2">
+          <div ref={sentinelRef} className="h-4 w-full" />
+          <button
+            type="button"
+            onClick={loadMore}
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-subtle/80 px-5 py-2 text-xs font-medium text-foreground transition-all hover:bg-muted hover:border-border-strong active:scale-95 shadow-xs"
+          >
+            <span>Load more elements</span>
+            <span className="text-[11px] text-muted-foreground">({visibleItems.length} of {total})</span>
+          </button>
+        </div>
+      )}
+      {open && (
+        <CodeModal
+          item={open}
+          shareCategory={shareCategory}
+          hostAttr={hostAttr}
+          preview={<MiniTile item={open} hostAttr={hostAttr} onOpen={() => undefined} />}
+          onClose={() => {
+            setOpen(null);
+            onClearDeepLink?.();
+          }}
+        />
+      )}
     </>
   );
 }
 
 /* ---------- UI Kits Gallery (large 2-col tiles) ---------- */
-function KitsGallery({ q, sort, mosaic, deepLinkId, onClearDeepLink }: { q: string; sort: SortKey; mosaic?: ReactNode; deepLinkId?: string; onClearDeepLink?: () => void }) {
+function KitsGallery({
+  q,
+  sort,
+  mosaic,
+  deepLinkId,
+  onClearDeepLink,
+  limit,
+}: {
+  q: string;
+  sort: SortKey;
+  mosaic?: ReactNode;
+  deepLinkId?: string;
+  onClearDeepLink?: () => void;
+  limit?: number;
+}) {
   const [open, setOpen] = useState<KitItem | null>(null);
   const items = useMemo(() => applyFilterSort(KITS, q, sort, "kit"), [q, sort]);
   useDeepLink(KITS, deepLinkId, setOpen);
+  const { visibleItems, hasMore, loadMore, sentinelRef, total } = useProgressiveItems(items, limit, 12);
+
   if (items.length === 0) return <NoResults q={q} />;
   return (
     <>
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">{mosaic}
-        {items.map((k, i) => (
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+        {mosaic}
+        {visibleItems.map((k, i) => (
           <TiltWrap key={k.id} index={i}>
             <KitCard item={k} onOpen={() => setOpen(k)} />
           </TiltWrap>
         ))}
       </div>
-      {open && <CodeModal item={open} shareCategory="UI Kits" hostAttr="data-kt-hover-host" preview={<KitCard item={open} onOpen={() => undefined} />} onClose={() => { setOpen(null); onClearDeepLink?.(); }} />}
+      {hasMore && (
+        <div className="mt-8 flex flex-col items-center justify-center gap-2">
+          <div ref={sentinelRef} className="h-4 w-full" />
+          <button
+            type="button"
+            onClick={loadMore}
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-subtle/80 px-5 py-2 text-xs font-medium text-foreground transition-all hover:bg-muted hover:border-border-strong active:scale-95 shadow-xs"
+          >
+            <span>Load more UI Kits</span>
+            <span className="text-[11px] text-muted-foreground">({visibleItems.length} of {total})</span>
+          </button>
+        </div>
+      )}
+      {open && (
+        <CodeModal
+          item={open}
+          shareCategory="UI Kits"
+          hostAttr="data-kt-hover-host"
+          preview={<KitCard item={open} onOpen={() => undefined} />}
+          onClose={() => {
+            setOpen(null);
+            onClearDeepLink?.();
+          }}
+        />
+      )}
     </>
   );
 }
@@ -926,17 +1229,27 @@ function KitCard({ item, onOpen }: { item: KitItem; onOpen: () => void }) {
       <div className="relative flex-1 overflow-hidden">{item.render()}</div>
       <div className="flex items-center justify-between border-t border-white/8 bg-white/[0.02] px-5 py-3">
         <div className="min-w-0">
-          <div className="truncate text-[13px] font-semibold text-white">{item.name}</div>
+          <div data-kt-title className="truncate text-[13px] font-semibold text-white">{item.name}</div>
           <div className="truncate text-[11px] text-white/50">{item.tagline}</div>
         </div>
-        <button
-          type="button"
-          onClick={onOpen}
-          aria-label={`${item.name} — view code`}
-          className="inline-flex cursor-pointer items-center gap-1 rounded-md bg-white/[0.06] px-2.5 py-1.5 text-[11px] font-mono text-white/70 opacity-0 transition-all duration-300 hover:bg-white/[0.12] hover:text-white focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 group-hover:opacity-100"
-        >
-          {"</>"} Get code
-        </button>
+        <div className="flex items-center gap-2 opacity-0 transition-all duration-300 group-hover:opacity-100 focus-within:opacity-100">
+          <button
+            type="button"
+            onClick={onOpen}
+            aria-label={`${item.name} — customize kit`}
+            className="inline-flex cursor-pointer items-center gap-1 rounded-md bg-accent/15 px-2.5 py-1.5 text-[11px] font-medium text-accent hover:bg-accent/25 hover:text-white transition-colors"
+          >
+            <Sliders size={11} aria-hidden /> Customize
+          </button>
+          <button
+            type="button"
+            onClick={onOpen}
+            aria-label={`${item.name} — view code`}
+            className="inline-flex cursor-pointer items-center gap-1 rounded-md bg-white/[0.06] px-2.5 py-1.5 text-[11px] font-mono text-white/70 hover:bg-white/[0.12] hover:text-white transition-colors"
+          >
+            {"</>"} Code
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -958,18 +1271,17 @@ function AllGalleries({
     node: ReactNode;
     total: number;
   }[] = [
-    { key: "UI Kits", title: "UI Kits", total: KITS.length, node: <KitsGallery q={q} sort={sort} /> },
-    { key: "Buttons", title: "Buttons", total: BUTTONS.length, node: <ButtonsGallery q={q} sort={sort} /> },
-    { key: "Checkboxes", title: "Checkboxes", total: CHECKBOXES.length, node: <CheckboxesGallery q={q} sort={sort} /> },
-    { key: "Toggles", title: "Toggles", total: TOGGLES.length, node: <TogglesGallery q={q} sort={sort} /> },
-    { key: "Cards", title: "Cards", total: CARDS.length, node: <MiniGallery items={CARDS} hostAttr="data-cd-hover-host" categoryKey="card" q={q} sort={sort} /> },
-    { key: "Loaders", title: "Loaders", total: LOADERS.length, node: <MiniGallery items={LOADERS} hostAttr="data-ld-hover-host" categoryKey="loader" q={q} sort={sort} /> },
-    { key: "Radio buttons", title: "Radio buttons", total: RADIOS.length, node: <MiniGallery items={RADIOS} hostAttr="data-rd-hover-host" categoryKey="radio" q={q} sort={sort} /> },
-    { key: "Tooltips", title: "Tooltips", total: TOOLTIPS.length, node: <MiniGallery items={TOOLTIPS} hostAttr="data-tp-hover-host" categoryKey="tooltip" q={q} sort={sort} /> },
-    { key: "Inputs", title: "Inputs", total: INPUTS.length, node: <MiniGallery items={INPUTS} hostAttr="data-in-hover-host" categoryKey="input" q={q} sort={sort} /> },
-    { key: "Forms", title: "Forms", total: FORMS.length, node: <MiniGallery items={FORMS} hostAttr="data-fm-hover-host" categoryKey="form" q={q} sort={sort} /> },
-    { key: "Patterns", title: "Patterns", total: PATTERNS.length, node: <MiniGallery items={PATTERNS} hostAttr="data-pt-hover-host" categoryKey="pattern" q={q} sort={sort} /> },
-
+    { key: "UI Kits", title: "UI Kits", total: KITS.length, node: <KitsGallery q={q} sort={sort} limit={4} /> },
+    { key: "Buttons", title: "Buttons", total: BUTTONS.length, node: <ButtonsGallery q={q} sort={sort} limit={8} /> },
+    { key: "Checkboxes", title: "Checkboxes", total: CHECKBOXES.length, node: <CheckboxesGallery q={q} sort={sort} limit={8} /> },
+    { key: "Toggles", title: "Toggles", total: TOGGLES.length, node: <TogglesGallery q={q} sort={sort} limit={8} /> },
+    { key: "Cards", title: "Cards", total: CARDS.length, node: <MiniGallery items={CARDS} hostAttr="data-cd-hover-host" categoryKey="card" q={q} sort={sort} limit={8} /> },
+    { key: "Loaders", title: "Loaders", total: LOADERS.length, node: <MiniGallery items={LOADERS} hostAttr="data-ld-hover-host" categoryKey="loader" q={q} sort={sort} limit={8} /> },
+    { key: "Radio buttons", title: "Radio buttons", total: RADIOS.length, node: <MiniGallery items={RADIOS} hostAttr="data-rd-hover-host" categoryKey="radio" q={q} sort={sort} limit={8} /> },
+    { key: "Tooltips", title: "Tooltips", total: TOOLTIPS.length, node: <MiniGallery items={TOOLTIPS} hostAttr="data-tp-hover-host" categoryKey="tooltip" q={q} sort={sort} limit={8} /> },
+    { key: "Inputs", title: "Inputs", total: INPUTS.length, node: <MiniGallery items={INPUTS} hostAttr="data-in-hover-host" categoryKey="input" q={q} sort={sort} limit={8} /> },
+    { key: "Forms", title: "Forms", total: FORMS.length, node: <MiniGallery items={FORMS} hostAttr="data-fm-hover-host" categoryKey="form" q={q} sort={sort} limit={8} /> },
+    { key: "Patterns", title: "Patterns", total: PATTERNS.length, node: <MiniGallery items={PATTERNS} hostAttr="data-pt-hover-host" categoryKey="pattern" q={q} sort={sort} limit={8} /> },
   ];
 
   return (
@@ -980,17 +1292,17 @@ function AllGalleries({
             <div>
               <h2
                 id={`sec-${s.key}`}
-                className="font-display text-2xl font-semibold tracking-[-0.02em]"
+                className="font-display text-2xl font-semibold tracking-[-0.02em] text-foreground"
               >
                 {s.title}
-                <span className="ml-2 align-middle text-[12px] font-medium tabular-nums text-white/40">
+                <span className="ml-2 align-middle text-[12px] font-medium tabular-nums text-muted-foreground/80 dark:text-white/40">
                   {s.total}
                 </span>
               </h2>
             </div>
             <button
               onClick={() => onJump(s.key)}
-              className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[12px] text-white/70 transition-colors hover:border-white/20 hover:text-white"
+              className="rounded-full border border-border bg-subtle/60 px-3 py-1.5 text-[12px] font-medium text-muted-foreground transition-colors hover:border-border-strong hover:text-foreground dark:border-white/10 dark:bg-white/[0.03] dark:text-white/70 dark:hover:border-white/20 dark:hover:text-white"
             >
               View all →
             </button>
@@ -1032,14 +1344,24 @@ function MiniTile({ item, hostAttr, onOpen }: { item: MiniItem; hostAttr: string
       </div>
       <div className="flex items-center justify-between border-t border-white/8 bg-white/[0.02] px-4 py-2.5">
         <span className="truncate text-[12px] font-medium text-white/70">{item.name}</span>
-        <button
-          type="button"
-          onClick={onOpen}
-          aria-label={`${item.name} — view code`}
-          className="inline-flex cursor-pointer items-center gap-1 rounded-md bg-white/[0.06] px-2 py-1 text-[10.5px] font-mono text-white/70 transition-all duration-300 hover:bg-accent/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
-        >
-          {"</>"} Get code
-        </button>
+        <div className="flex items-center gap-1.5 opacity-0 transition-all duration-300 group-hover:opacity-100 focus-within:opacity-100">
+          <button
+            type="button"
+            onClick={onOpen}
+            aria-label={`${item.name} — customize`}
+            className="inline-flex cursor-pointer items-center gap-1 rounded-md bg-accent/15 px-2 py-1 text-[10.5px] font-medium text-accent hover:bg-accent/25 hover:text-white transition-colors"
+          >
+            <Sliders size={11} aria-hidden /> Customize
+          </button>
+          <button
+            type="button"
+            onClick={onOpen}
+            aria-label={`${item.name} — view code`}
+            className="inline-flex cursor-pointer items-center gap-1 rounded-md bg-white/[0.06] px-2 py-1 text-[10.5px] font-mono text-white/70 hover:bg-white/[0.12] hover:text-white transition-colors"
+          >
+            {"</>"} Code
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -1101,22 +1423,29 @@ function ButtonCard({ item, onOpen }: { item: ButtonItem; onOpen: () => void }) 
       {/* meta bar */}
       <div className="flex items-center justify-between border-t border-white/8 bg-white/[0.02] px-4 py-2.5">
         <span className="truncate text-[12px] font-medium text-white/70">{item.name}</span>
-        <button
-          type="button"
-          onClick={onOpen}
-          aria-label={`${item.name} — view code`}
-          className="inline-flex cursor-pointer items-center gap-1 rounded-md bg-white/[0.06] px-2 py-1 text-[10.5px] font-mono text-white/70 opacity-0 transition-all duration-300 hover:bg-white/[0.12] hover:text-white focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 group-hover:opacity-100"
-        >
-          {"</>"} Get code
-        </button>
+        <div className="flex items-center gap-1.5 opacity-0 transition-all duration-300 group-hover:opacity-100 focus-within:opacity-100">
+          <button
+            type="button"
+            onClick={onOpen}
+            aria-label={`${item.name} — customize button`}
+            className="inline-flex cursor-pointer items-center gap-1 rounded-md bg-accent/15 px-2 py-1 text-[10.5px] font-medium text-accent hover:bg-accent/25 hover:text-white transition-colors"
+          >
+            <Sliders size={11} aria-hidden /> Customize
+          </button>
+          <button
+            type="button"
+            onClick={onOpen}
+            aria-label={`${item.name} — view code`}
+            className="inline-flex cursor-pointer items-center gap-1 rounded-md bg-white/[0.06] px-2 py-1 text-[10.5px] font-mono text-white/70 hover:bg-white/[0.12] hover:text-white transition-colors"
+          >
+            {"</>"} Code
+          </button>
+        </div>
       </div>
     </div>
   );
 
 }
-
-
-export type CodeModalItem = { id: string; name: string; render: () => ReactNode; code: string };
 
 /** Auto-open the CodeModal for the item whose id matches `deepLinkId`. */
 function useDeepLink<T extends { id: string }>(

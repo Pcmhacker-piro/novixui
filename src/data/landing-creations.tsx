@@ -1,6 +1,6 @@
 import { useState, useRef, type ReactNode } from "react";
 import { motion } from "motion/react";
-import { ArrowRight, Heart, Moon, Plus, Sun, Github } from "lucide-react";
+import { ArrowRight, Heart, Moon, Plus, Sun, Github, Sparkles, Sliders } from "lucide-react";
 import { Avatar, Badge, Card } from "@/nova";
 import { CodeModal } from "@/components/elements/code-modal";
 import { extractSnippet } from "@/lib/snippet";
@@ -269,13 +269,17 @@ export function CreationTile({ creation, index }: { creation: Creation; index: n
               {creation.tag}
             </Badge>
           </div>
-          <span
-            aria-hidden
-            className="pointer-events-none absolute bottom-2 right-2 inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[11px] font-medium text-white/85 opacity-0 translate-y-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 group-[.is-active]:opacity-100 group-[.is-active]:translate-y-0"
+          <div
+            className="pointer-events-none absolute bottom-2 right-2 flex items-center gap-1.5 opacity-0 translate-y-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 group-[.is-active]:opacity-100 group-[.is-active]:translate-y-0"
           >
-            <span className="font-mono text-white/70">{"</>"}</span>
-            Get code
-          </span>
+            <span className="inline-flex items-center gap-1 rounded-md bg-accent/20 border border-accent/30 px-2 py-0.5 text-[10.5px] font-medium text-accent backdrop-blur-sm">
+              <Sliders size={10} aria-hidden />
+              Customize
+            </span>
+            <span className="inline-flex items-center gap-1 rounded-md bg-white/10 border border-white/15 px-2 py-0.5 text-[10.5px] font-mono text-white/80 backdrop-blur-sm">
+              {"</>"} Code
+            </span>
+          </div>
         </div>
 
         <div className="flex items-center justify-between px-4 py-3">
@@ -314,6 +318,7 @@ export function CreationTile({ creation, index }: { creation: Creation; index: n
             render: creation.render,
             code: extractSnippet({ name: creation.name, render: creation.render }),
           }}
+          shareCategory={creation.category}
           onClose={() => setOpenCode(false)}
         />
       )}

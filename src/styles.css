@@ -169,6 +169,10 @@
   :focus-visible {
     outline: none;
   }
+  button, [role="button"], a, input[type="submit"], input[type="button"] {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
 @utility nova-focus-ring {
@@ -447,13 +451,14 @@
   position: relative;
   isolation: isolate;
   transform: translateZ(0);
-  will-change: transform, box-shadow, filter;
+  cursor: pointer;
+  touch-action: manipulation;
   transition:
-    transform 220ms var(--ease-swift),
-    box-shadow 260ms var(--ease-swift),
-    background-color 200ms var(--ease-swift),
-    border-color 200ms var(--ease-swift),
-    filter 200ms var(--ease-swift);
+    transform 120ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 140ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 100ms ease-out,
+    border-color 100ms ease-out,
+    filter 100ms ease-out;
 
   /* Top-edge reflection — inner border-radius-hugging highlight. */
   &::before {
@@ -486,18 +491,18 @@
     opacity: 0;
     pointer-events: none;
     z-index: -1;
-    transition: opacity 260ms var(--ease-swift);
+    transition: opacity 140ms ease-out;
   }
 
   &:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1.5px);
   }
   &:hover::after { opacity: 0.9; }
 
   &:active {
-    transform: translateY(0.5px);
-    filter: brightness(0.96);
-    transition-duration: 90ms;
+    transform: translateY(1px) scale(0.985);
+    filter: brightness(0.95);
+    transition-duration: 40ms !important;
   }
 
   @media (prefers-reduced-motion: reduce) {

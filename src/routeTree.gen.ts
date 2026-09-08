@@ -10,10 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ChallengesRouteImport } from './routes/challenges'
 import { Route as DesignRouteImport } from './routes/design'
 import { Route as ElementsRouteImport } from './routes/elements'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as DesignSlugRouteImport } from './routes/design.$slug'
 import { Route as DocsIndexRouteImport } from './routes/docs.index'
 import { Route as DocsAccessibilityRouteImport } from './routes/docs.accessibility'
@@ -35,6 +39,7 @@ import { Route as DocsRoadmapRouteImport } from './routes/docs.roadmap'
 import { Route as DocsShowcaseRouteImport } from './routes/docs.showcase'
 import { Route as DocsThemingRouteImport } from './routes/docs.theming'
 import { Route as DocsTroubleshootingRouteImport } from './routes/docs.troubleshooting'
+import { Route as ApiAuthGithubRouteImport } from './routes/api.auth.github'
 import { Route as DocsComponentsIndexRouteImport } from './routes/docs.components.index'
 import { Route as DocsComponentsAvatarRouteImport } from './routes/docs.components.avatar'
 import { Route as DocsComponentsBadgeRouteImport } from './routes/docs.components.badge'
@@ -93,6 +98,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ChallengesRoute = ChallengesRouteImport.update({
   id: '/challenges',
   path: '/challenges',
@@ -108,10 +118,25 @@ const ElementsRoute = ElementsRouteImport.update({
   path: '/elements',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/callback',
+  path: '/callback',
+  getParentRoute: () => AuthRoute,
 } as any)
 const DesignSlugRoute = DesignSlugRouteImport.update({
   id: '/$slug',
@@ -216,6 +241,11 @@ const DocsThemingRoute = DocsThemingRouteImport.update({
 const DocsTroubleshootingRoute = DocsTroubleshootingRouteImport.update({
   id: '/docs/troubleshooting',
   path: '/docs/troubleshooting',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthGithubRoute = ApiAuthGithubRouteImport.update({
+  id: '/api/auth/github',
+  path: '/api/auth/github',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DocsComponentsIndexRoute = DocsComponentsIndexRouteImport.update({
@@ -490,10 +520,14 @@ const DocsTokensTypographyRoute = DocsTokensTypographyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRouteWithChildren
   '/challenges': typeof ChallengesRoute
   '/design': typeof DesignRouteWithChildren
   '/elements': typeof ElementsRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/design/$slug': typeof DesignSlugRoute
   '/docs/accessibility': typeof DocsAccessibilityRoute
   '/docs/atelier': typeof DocsAtelierRoute
@@ -515,6 +549,7 @@ export interface FileRoutesByFullPath {
   '/docs/theming': typeof DocsThemingRoute
   '/docs/troubleshooting': typeof DocsTroubleshootingRoute
   '/docs/': typeof DocsIndexRoute
+  '/api/auth/github': typeof ApiAuthGithubRoute
   '/docs/components/avatar': typeof DocsComponentsAvatarRoute
   '/docs/components/badge': typeof DocsComponentsBadgeRoute
   '/docs/components/button': typeof DocsComponentsButtonRoute
@@ -570,10 +605,14 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRouteWithChildren
   '/challenges': typeof ChallengesRoute
   '/design': typeof DesignRouteWithChildren
   '/elements': typeof ElementsRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/design/$slug': typeof DesignSlugRoute
   '/docs/accessibility': typeof DocsAccessibilityRoute
   '/docs/atelier': typeof DocsAtelierRoute
@@ -595,6 +634,7 @@ export interface FileRoutesByTo {
   '/docs/theming': typeof DocsThemingRoute
   '/docs/troubleshooting': typeof DocsTroubleshootingRoute
   '/docs': typeof DocsIndexRoute
+  '/api/auth/github': typeof ApiAuthGithubRoute
   '/docs/components/avatar': typeof DocsComponentsAvatarRoute
   '/docs/components/badge': typeof DocsComponentsBadgeRoute
   '/docs/components/button': typeof DocsComponentsButtonRoute
@@ -651,10 +691,14 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRouteWithChildren
   '/challenges': typeof ChallengesRoute
   '/design': typeof DesignRouteWithChildren
   '/elements': typeof ElementsRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/design/$slug': typeof DesignSlugRoute
   '/docs/accessibility': typeof DocsAccessibilityRoute
   '/docs/atelier': typeof DocsAtelierRoute
@@ -676,6 +720,7 @@ export interface FileRoutesById {
   '/docs/theming': typeof DocsThemingRoute
   '/docs/troubleshooting': typeof DocsTroubleshootingRoute
   '/docs/': typeof DocsIndexRoute
+  '/api/auth/github': typeof ApiAuthGithubRoute
   '/docs/components/avatar': typeof DocsComponentsAvatarRoute
   '/docs/components/badge': typeof DocsComponentsBadgeRoute
   '/docs/components/button': typeof DocsComponentsButtonRoute
@@ -733,10 +778,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/challenges'
     | '/design'
     | '/elements'
+    | '/login'
+    | '/signup'
     | '/sitemap.xml'
+    | '/auth/callback'
     | '/design/$slug'
     | '/docs/accessibility'
     | '/docs/atelier'
@@ -758,6 +807,7 @@ export interface FileRouteTypes {
     | '/docs/theming'
     | '/docs/troubleshooting'
     | '/docs/'
+    | '/api/auth/github'
     | '/docs/components/avatar'
     | '/docs/components/badge'
     | '/docs/components/button'
@@ -813,10 +863,14 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/challenges'
     | '/design'
     | '/elements'
+    | '/login'
+    | '/signup'
     | '/sitemap.xml'
+    | '/auth/callback'
     | '/design/$slug'
     | '/docs/accessibility'
     | '/docs/atelier'
@@ -838,6 +892,7 @@ export interface FileRouteTypes {
     | '/docs/theming'
     | '/docs/troubleshooting'
     | '/docs'
+    | '/api/auth/github'
     | '/docs/components/avatar'
     | '/docs/components/badge'
     | '/docs/components/button'
@@ -893,10 +948,14 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/auth'
     | '/challenges'
     | '/design'
     | '/elements'
+    | '/login'
+    | '/signup'
     | '/sitemap.xml'
+    | '/auth/callback'
     | '/design/$slug'
     | '/docs/accessibility'
     | '/docs/atelier'
@@ -918,6 +977,7 @@ export interface FileRouteTypes {
     | '/docs/theming'
     | '/docs/troubleshooting'
     | '/docs/'
+    | '/api/auth/github'
     | '/docs/components/avatar'
     | '/docs/components/badge'
     | '/docs/components/button'
@@ -974,9 +1034,12 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRouteWithChildren
   ChallengesRoute: typeof ChallengesRoute
   DesignRoute: typeof DesignRouteWithChildren
   ElementsRoute: typeof ElementsRoute
+  LoginRoute: typeof LoginRoute
+  SignupRoute: typeof SignupRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   DocsAccessibilityRoute: typeof DocsAccessibilityRoute
   DocsAtelierRoute: typeof DocsAtelierRoute
@@ -998,6 +1061,7 @@ export interface RootRouteChildren {
   DocsThemingRoute: typeof DocsThemingRoute
   DocsTroubleshootingRoute: typeof DocsTroubleshootingRoute
   DocsIndexRoute: typeof DocsIndexRoute
+  ApiAuthGithubRoute: typeof ApiAuthGithubRoute
   DocsComponentsAvatarRoute: typeof DocsComponentsAvatarRoute
   DocsComponentsBadgeRoute: typeof DocsComponentsBadgeRoute
   DocsComponentsButtonRoute: typeof DocsComponentsButtonRoute
@@ -1061,6 +1125,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/challenges': {
       id: '/challenges'
       path: '/challenges'
@@ -1082,12 +1153,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ElementsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof AuthRoute
     }
     '/design/$slug': {
       id: '/design/$slug'
@@ -1234,6 +1326,13 @@ declare module '@tanstack/react-router' {
       path: '/docs/troubleshooting'
       fullPath: '/docs/troubleshooting'
       preLoaderRoute: typeof DocsTroubleshootingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/github': {
+      id: '/api/auth/github'
+      path: '/api/auth/github'
+      fullPath: '/api/auth/github'
+      preLoaderRoute: typeof ApiAuthGithubRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/docs/components/': {
@@ -1603,6 +1702,16 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthRouteChildren {
+  AuthCallbackRoute: typeof AuthCallbackRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthCallbackRoute: AuthCallbackRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 interface DesignRouteChildren {
   DesignSlugRoute: typeof DesignSlugRoute
 }
@@ -1616,9 +1725,12 @@ const DesignRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRouteWithChildren,
   ChallengesRoute: ChallengesRoute,
   DesignRoute: DesignRouteWithChildren,
   ElementsRoute: ElementsRoute,
+  LoginRoute: LoginRoute,
+  SignupRoute: SignupRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   DocsAccessibilityRoute: DocsAccessibilityRoute,
   DocsAtelierRoute: DocsAtelierRoute,
@@ -1640,6 +1752,7 @@ const rootRouteChildren: RootRouteChildren = {
   DocsThemingRoute: DocsThemingRoute,
   DocsTroubleshootingRoute: DocsTroubleshootingRoute,
   DocsIndexRoute: DocsIndexRoute,
+  ApiAuthGithubRoute: ApiAuthGithubRoute,
   DocsComponentsAvatarRoute: DocsComponentsAvatarRoute,
   DocsComponentsBadgeRoute: DocsComponentsBadgeRoute,
   DocsComponentsButtonRoute: DocsComponentsButtonRoute,

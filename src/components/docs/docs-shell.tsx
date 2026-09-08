@@ -9,7 +9,6 @@ import {
   Clock,
   Github,
   History,
-  Home,
   Menu,
   Moon,
   Sparkles,
@@ -20,6 +19,8 @@ import { Badge, Button, IconButton, useTheme } from "@/nova";
 import { cn } from "@/nova/utils";
 import { DOCS_NAV, FLAT_DOCS } from "./nav-data";
 import { CommandK, CommandKTrigger, useRecents } from "./command-k";
+import { useAuth } from "@/context/auth-context";
+import { UserMenu } from "@/components/auth/user-menu";
 
 /**
  * Nova docs shell — 3-column layout:
@@ -294,6 +295,7 @@ export function DocsShell({
 
 function DocsHeader({ onOpenMobile }: { onOpenMobile: () => void }) {
   const { resolvedTheme, toggle } = useTheme();
+  const { isAuthenticated, openAuthModal } = useAuth();
   return (
     <header className="sticky top-0 z-40 border-b border-border/50 bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex h-14 w-full max-w-[92rem] items-center gap-3 px-4 md:px-6">
@@ -330,12 +332,40 @@ function DocsHeader({ onOpenMobile }: { onOpenMobile: () => void }) {
             aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`}
             onClick={toggle}
             variant="ghost"
-            icon={resolvedTheme === "dark" ? <Sun /> : <Moon />}
+            icon={
+              resolvedTheme === "dark" ? (
+                <Sun size={16} className="text-amber-400" />
+              ) : (
+                <Moon size={16} className="text-indigo-600" />
+              )
+            }
+            className="border border-border/80 bg-subtle/80 text-foreground transition-colors hover:bg-muted dark:border-white/10 dark:bg-white/[0.04] dark:text-white"
           />
-          <IconButton aria-label="GitHub" variant="ghost" icon={<Github />} />
+          <IconButton
+            aria-label="GitHub"
+            variant="ghost"
+            icon={<Github size={16} />}
+            className="border border-border/80 bg-subtle/80 text-foreground transition-colors hover:bg-muted dark:border-white/10 dark:bg-white/[0.04] dark:text-white"
+          />
           <Button size="sm" trailingIcon={<ArrowRight />} asChild>
             <Link to="/docs/installation">Install</Link>
           </Button>
+          {isAuthenticated ? (
+            <div className="ml-1">
+              <UserMenu />
+            </div>
+          ) : (
+            <Button
+              size="sm"
+              variant="outline"
+              className="ml-1 hidden sm:inline-flex rounded-full text-xs"
+              asChild
+            >
+              <Link to="/auth" search={{ mode: "signup" }}>
+                Join
+              </Link>
+            </Button>
+          )}
         </div>
       </div>
     </header>
@@ -526,7 +556,6 @@ function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
         const last = i === crumbs.length - 1;
         return (
           <span key={i} className="flex items-center gap-1.5">
-            {i === 0 && <Home size={12} className="opacity-70" />}
             {c.href && !last ? (
               <Link to={c.href} className="rounded px-1 hover:bg-subtle hover:text-foreground">
                 {c.label}

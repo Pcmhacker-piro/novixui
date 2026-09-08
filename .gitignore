@@ -34,3 +34,8 @@ dist-ssr
 .npmrc
 .snippet-check/
 
+# Environment files
+.env
+.env*.local
+!.env.example
+

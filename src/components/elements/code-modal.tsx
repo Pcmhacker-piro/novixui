@@ -1,12 +1,33 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { Check, Copy, X } from "lucide-react";
+import { Check, Copy, Sparkles, X } from "lucide-react";
 import { extractSnippet } from "@/lib/snippet";
 import { useReducedMotion } from "motion/react";
+import {
+  detectCategory,
+  getDefaultCustomization,
+  hasCustomizations,
+  generateCustomizedCode,
+  CustomizerPreviewWrapper,
+  ElementCustomizerPanel,
+  type ElementCustomization,
+} from "./element-customizer";
 
 export type CodeModalItem = { id: string; name: string; render: () => ReactNode; code: string };
 
-export function CodeModal({ item, onClose, shareCategory, hostAttr, preview }: { item: CodeModalItem; onClose: () => void; shareCategory?: string; hostAttr?: string; preview?: ReactNode }) {
+export function CodeModal({
+  item,
+  onClose,
+  shareCategory,
+  hostAttr,
+  preview,
+}: {
+  item: CodeModalItem;
+  onClose: () => void;
+  shareCategory?: string;
+  hostAttr?: string;
+  preview?: ReactNode;
+}) {
   const [copied, setCopied] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
   const [tab, setTab] = useState<"react" | "css">("react");
@@ -20,10 +41,36 @@ export function CodeModal({ item, onClose, shareCategory, hostAttr, preview }: {
   const titleId = useMemo(() => `code-modal-title-${item.id}`, [item.id]);
   const prefersReducedMotion = useReducedMotion();
 
+  // Category & Customization state
+  const category = useMemo(
+    () => detectCategory(shareCategory, hostAttr, item.id, item.name),
+    [shareCategory, hostAttr, item.id, item.name],
+  );
+  const defaultCustom = useMemo(
+    () => getDefaultCustomization(category, item.name),
+    [category, item.name],
+  );
+  const [custom, setCustom] = useState<ElementCustomization>(defaultCustom);
+
+  // Sync state when item changes
+  useEffect(() => {
+    setCustom(defaultCustom);
+  }, [defaultCustom]);
+
+  const isDefault = useMemo(
+    () => !hasCustomizations(custom, defaultCustom),
+    [custom, defaultCustom],
+  );
+
+  const handleResetCustom = () => setCustom(defaultCustom);
+  const handleUpdateCustom = (patch: Partial<ElementCustomization>) => {
+    setCustom((prev) => ({ ...prev, ...patch }));
+  };
+
   // Many data files ship a placeholder `code` string that only points at the
   // source file. Detect that and regenerate real, copy-pasteable markup from
   // the rendered React tree so the code pane always matches the preview.
-  const reactCode = useMemo(() => {
+  const baseReactCode = useMemo(() => {
     const raw = (item.code ?? "").trim();
     const isPlaceholder =
       !raw ||
@@ -31,6 +78,10 @@ export function CodeModal({ item, onClose, shareCategory, hostAttr, preview }: {
     if (!isPlaceholder) return item.code;
     return extractSnippet({ name: item.name, render: item.render });
   }, [item.code, item.name, item.render]);
+
+  const reactCode = useMemo(() => {
+    return generateCustomizedCode(baseReactCode, custom, category);
+  }, [baseReactCode, custom, category]);
 
   useEffect(() => {
     if (!exportOpen) return;
@@ -184,8 +235,52 @@ export function CodeModal({ item, onClose, shareCategory, hostAttr, preview }: {
     return { views: `${views}K`, saves: `${saves}K` };
   }, [item.id]);
 
-  const cssSnippet =
-    `/* ${item.name} — Novix UI\n * Wire-up hint: this component uses Tailwind utilities and inline styles.\n * The .tsx tab has the full source you can drop into your project.\n */\n.nova-btn {\n  position: relative;\n  isolation: isolate;\n  border-radius: 12px;\n  transition: transform .2s cubic-bezier(0.16,1,0.3,1),\n              box-shadow .3s ease;\n}\n.nova-btn:hover  { transform: translateY(-1px); }\n.nova-btn:active { transform: translateY(1px); }\n@media (prefers-reduced-motion: reduce) {\n  .nova-btn { transition: none; transform: none !important; }\n}`;
+  const cssSnippet = useMemo(() => {
+    const radiusPx =
+      custom.radius === "sharp"
+        ? "0px"
+        : custom.radius === "sm"
+          ? "8px"
+          : custom.radius === "md"
+            ? "14px"
+            : "inherit";
+    return `/* ${item.name} — Novix UI (Customized)
+ * Theme: ${custom.accentName} (${custom.accentColor})
+ * Radius: ${custom.radius} (${radiusPx}) · Glow: ${custom.glow}
+ */
+:root {
+  --accent: ${custom.accentColor};
+  --accent-spark: ${custom.accentGradient};
+  --radius: ${radiusPx};
+  --speed: ${custom.speed}s;
+}
+
+.nova-component {
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--radius);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s ease,
+              border-color 0.2s ease;
+  box-shadow: 0 12px 32px -10px ${custom.accentColor}50;
+}
+
+.nova-component:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px -8px ${custom.accentColor}70;
+}
+
+.nova-component:active {
+  transform: translateY(1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nova-component {
+    transition: none;
+    transform: none !important;
+  }
+}`;
+  }, [item.name, custom]);
 
   const source = tab === "react" ? reactCode : cssSnippet;
 
@@ -315,100 +410,113 @@ export function CodeModal({ item, onClose, shareCategory, hostAttr, preview }: {
         {/* Split body */}
         <div className="grid min-h-0 flex-1 grid-cols-1 overflow-y-auto lg:grid-cols-2 lg:overflow-hidden">
           {/* Preview pane */}
-          <div className="relative flex min-h-[min(340px,56dvh)] min-w-0 items-center justify-center overflow-hidden border-b border-border/60 lg:min-h-0 lg:border-b-0 lg:border-r">
-            <div
-              aria-hidden
-              className="absolute inset-0"
-              style={{
-                background: light
-                  ? "radial-gradient(120% 80% at 50% 0%, #f5f5f5, #e8e8e8 70%)"
-                  : "radial-gradient(120% 80% at 50% 0%, #121212, #050505 70%)",
-                transition: "background .35s ease",
-              }}
-            />
-            <div
-              aria-hidden
-              className="absolute inset-0 opacity-[0.06]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
-                backgroundSize: "28px 28px",
-                color: light ? "#000" : "#fff",
-                maskImage: "radial-gradient(60% 55% at 50% 50%, #000, transparent 75%)",
-              }}
-            />
-            <div className="pointer-events-none absolute left-4 top-3 z-30 font-mono text-[11px] text-muted-foreground">
-              {light ? "#e8e8e8" : "#0a0a0a"}
-            </div>
-            <div role="group" aria-label="Preview theme" className="absolute right-4 top-3 z-30 inline-flex items-center gap-1 rounded-full border border-border/60 bg-background/80 p-0.5 shadow-lg backdrop-blur">
-              <button
-                type="button"
-                onClick={() => setLight(false)}
-                className={`grid size-6 place-items-center rounded-full text-[11px] transition-colors ${!light ? "bg-subtle text-foreground" : "text-muted-foreground hover:text-foreground"}`}
-                aria-label="Dark preview"
-                aria-pressed={!light}
-              >
-                <span aria-hidden>☾</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setLight(true)}
-                className={`grid size-6 place-items-center rounded-full text-[11px] transition-colors ${light ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"}`}
-                aria-label="Light preview"
-                aria-pressed={light}
-              >
-                <span aria-hidden>☀</span>
-              </button>
-            </div>
-            <div
-              ref={previewFrameRef}
-              className={[
-                "relative z-10 flex h-full min-h-0 w-full justify-start overflow-auto overscroll-contain max-h-[min(56dvh,620px)] lg:max-h-none",
-                preview ? "p-3 sm:justify-center sm:p-4" : "p-4 sm:justify-center sm:p-6",
-              ].join(" ")}
-            >
+          <div className="relative flex min-h-[min(340px,56dvh)] min-w-0 flex-col justify-between overflow-hidden border-b border-border/60 lg:min-h-0 lg:border-b-0 lg:border-r">
+            <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden">
               <div
-                className="mx-auto shrink-0"
+                aria-hidden
+                className="absolute inset-0"
                 style={{
-                  width: naturalPreviewSize.width,
-                  height: naturalPreviewSize.height * previewScale,
+                  background: light
+                    ? "radial-gradient(120% 80% at 50% 0%, #f5f5f5, #e8e8e8 70%)"
+                    : "radial-gradient(120% 80% at 50% 0%, #121212, #050505 70%)",
+                  transition: "background .35s ease",
                 }}
+              />
+              <div
+                aria-hidden
+                className="absolute inset-0 opacity-[0.06]"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
+                  backgroundSize: "28px 28px",
+                  color: light ? "#000" : "#fff",
+                  maskImage: "radial-gradient(60% 55% at 50% 50%, #000, transparent 75%)",
+                }}
+              />
+              <div className="pointer-events-none absolute left-4 top-3 z-30 font-mono text-[11px] text-muted-foreground">
+                {light ? "#e8e8e8" : "#0a0a0a"}
+              </div>
+              <div role="group" aria-label="Preview theme" className="absolute right-4 top-3 z-30 inline-flex items-center gap-1 rounded-full border border-border/60 bg-background/80 p-0.5 shadow-lg backdrop-blur">
+                <button
+                  type="button"
+                  onClick={() => setLight(false)}
+                  className={`grid size-6 place-items-center rounded-full text-[11px] transition-colors ${!light ? "bg-subtle text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+                  aria-label="Dark preview"
+                  aria-pressed={!light}
+                >
+                  <span aria-hidden>☾</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLight(true)}
+                  className={`grid size-6 place-items-center rounded-full text-[11px] transition-colors ${light ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"}`}
+                  aria-label="Light preview"
+                  aria-pressed={light}
+                >
+                  <span aria-hidden>☀</span>
+                </button>
+              </div>
+              <div
+                ref={previewFrameRef}
+                className={[
+                  "relative z-10 flex h-full min-h-0 w-full justify-start overflow-auto overscroll-contain max-h-[min(56dvh,620px)] lg:max-h-none",
+                  preview ? "p-3 sm:justify-center sm:p-4" : "p-4 sm:justify-center sm:p-6",
+                ].join(" ")}
               >
                 <div
-                  className="origin-top-left [&>*]:w-full"
+                  className="mx-auto shrink-0"
                   style={{
-                    width: naturalPreviewSize.width,
-                    transform: `scale(${previewScale})`,
+                    width: naturalPreviewSize.width * previewScale,
+                    height: naturalPreviewSize.height * previewScale,
                   }}
                 >
-                  {preview ?? (
-                    <div
-                      {...(hostAttr ? { [hostAttr]: "" } : {})}
-                      className={[
-                        "group relative flex min-h-72 w-full items-center justify-center rounded-2xl border px-6 py-8",
-                        light
-                          ? "border-black/10 bg-gradient-to-b from-white to-neutral-100 shadow-[0_20px_50px_-24px_rgba(0,0,0,0.25)]"
-                          : "border-white/8 bg-gradient-to-b from-[#0f0f10] to-[#050505] shadow-[0_20px_50px_-24px_rgba(0,0,0,0.7)]",
-                      ].join(" ")}
-                    >
-                      {!light && (
-                        <span
-                          aria-hidden
-                          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent"
-                        />
+                  <div
+                    className="origin-top-left [&>*]:w-full"
+                    style={{
+                      width: naturalPreviewSize.width,
+                      transform: `scale(${previewScale})`,
+                    }}
+                  >
+                    <CustomizerPreviewWrapper custom={custom} category={category}>
+                      {preview ?? (
+                        <div
+                          {...(hostAttr ? { [hostAttr]: "" } : {})}
+                          className={[
+                            "group relative flex min-h-72 w-full items-center justify-center rounded-2xl border px-6 py-8",
+                            light
+                              ? "border-black/10 bg-gradient-to-b from-white to-neutral-100 shadow-[0_20px_50px_-24px_rgba(0,0,0,0.25)]"
+                              : "border-white/8 bg-gradient-to-b from-[#0f0f10] to-[#050505] shadow-[0_20px_50px_-24px_rgba(0,0,0,0.7)]",
+                          ].join(" ")}
+                        >
+                          {!light && (
+                            <span
+                              aria-hidden
+                              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent"
+                            />
+                          )}
+                          {item.render()}
+                        </div>
                       )}
-                      {item.render()}
-                    </div>
-                  )}
+                    </CustomizerPreviewWrapper>
+                  </div>
                 </div>
               </div>
             </div>
+
+            {/* Live Customizer Control Panel */}
+            <ElementCustomizerPanel
+              custom={custom}
+              onChange={handleUpdateCustom}
+              category={category}
+              onReset={handleResetCustom}
+              isDefault={isDefault}
+            />
           </div>
 
           {/* Code pane */}
           <div className="relative flex min-h-[min(300px,46dvh)] min-w-0 flex-col bg-[#07070a] text-zinc-100 [color-scheme:dark] lg:min-h-0">
             <div className="grid shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 border-b border-white/10 bg-white/[0.03] px-3 py-2">
-              <div role="tablist" aria-label="Source language" className="flex items-center gap-1">
+              <div role="tablist" aria-label="Source language" className="flex items-center gap-1.5">
                 <button
                   type="button"
                   role="tab"
@@ -431,6 +539,11 @@ export function CodeModal({ item, onClose, shareCategory, hostAttr, preview }: {
                 >
                   <span aria-hidden className="text-sky-400">◐</span> CSS
                 </button>
+                {!isDefault && (
+                  <span className="ml-1 inline-flex items-center gap-1 rounded-full bg-accent/20 px-2 py-0.5 text-[10.5px] font-semibold text-accent">
+                    <Sparkles size={10} /> Live Props
+                  </span>
+                )}
               </div>
               <button
                 type="button"

@@ -13,6 +13,9 @@ import appCss from "../styles.css?url";
 import { ThemeProvider } from "@/nova/themes/theme-provider";
 import { GlobalCommandK } from "@/components/global-command-k";
 import { Toaster } from "@/components/ui/sonner";
+import { AuthProvider } from "@/context/auth-context";
+import { AuthModal } from "@/components/auth/auth-modal";
+import { GlobalThemeHomeControls } from "@/components/ui/global-theme-home-controls";
 
 function NotFoundComponent() {
   return (
@@ -127,6 +130,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
       </head>
       <body>
         {children}
@@ -145,10 +149,14 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="dark">
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
-        <GlobalCommandK />
-        <Toaster position="bottom-right" richColors closeButton />
+        <AuthProvider>
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <Outlet />
+          <AuthModal />
+          <GlobalCommandK />
+          <GlobalThemeHomeControls />
+          <Toaster position="bottom-right" richColors closeButton />
+        </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

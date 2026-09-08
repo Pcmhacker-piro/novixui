@@ -15,7 +15,10 @@ import {
   X as XIcon,
   Check as CheckIcon,
   Menu,
+  Sun,
+  Moon,
 } from "lucide-react";
+import { IconButton, useTheme } from "@/nova";
 
 export const Route = createFileRoute("/design")({
   head: () => ({
@@ -86,6 +89,7 @@ function DesignPage() {
 /* ─────────────────────────── header ─────────────────────────── */
 
 function Header() {
+  const { resolvedTheme, toggle } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -104,23 +108,21 @@ function Header() {
     >
       <div className="mx-auto flex h-16 w-full items-center justify-between px-6 lg:max-w-none lg:px-8">
         {/* Left — wordmark + Design tag */}
-        <a
-          href="/"
-          onClick={(e) => {
-            e.preventDefault();
-            window.location.assign("/");
-          }}
-          className="flex items-center gap-2 pl-1 md:pl-2"
-        >
-          <span className="font-display text-[21px] font-bold tracking-tight text-foreground">
-            novix<span className="text-accent">ui</span>
-          </span>
-          <span
-            className="ml-0.5 rounded-md bg-gradient-to-r from-fuchsia-500 via-violet-500 to-cyan-400 bg-clip-text px-1.5 py-0.5 font-display text-[13px] font-semibold uppercase tracking-[0.14em] text-transparent ring-1 ring-inset ring-violet-400/30"
+        <div className="flex items-center gap-2 pl-1 md:pl-2">
+          <Link
+            to="/"
+            className="flex items-center gap-2"
           >
-            Design
-          </span>
-        </a>
+            <span className="font-display text-[21px] font-bold tracking-tight text-foreground">
+              novix<span className="text-accent">ui</span>
+            </span>
+            <span
+              className="ml-0.5 rounded-md bg-gradient-to-r from-fuchsia-500 via-violet-500 to-cyan-400 bg-clip-text px-1.5 py-0.5 font-display text-[13px] font-semibold uppercase tracking-[0.14em] text-transparent ring-1 ring-inset ring-violet-400/30"
+            >
+              Design
+            </span>
+          </Link>
+        </div>
 
         {/* Center — primary nav */}
         <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 md:flex lg:gap-2 xl:gap-4">
@@ -158,12 +160,31 @@ function Header() {
 
         {/* Right — actions */}
         <div className="flex items-center gap-2 sm:gap-3">
-          <button className="hidden h-9 items-center justify-center rounded-full border border-border/60 bg-surface/60 px-4 text-[13px] font-medium text-foreground transition-colors hover:bg-subtle sm:inline-flex">
+          <IconButton
+            aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "night"} mode`}
+            onClick={toggle}
+            variant="ghost"
+            icon={
+              resolvedTheme === "dark" ? (
+                <Sun size={16} className="text-amber-400" />
+              ) : (
+                <Moon size={16} className="text-indigo-600" />
+              )
+            }
+            className="border border-border/80 bg-subtle/80 text-foreground transition-colors hover:bg-muted dark:border-white/10 dark:bg-white/[0.04] dark:text-white"
+          />
+          <Link
+            to="/auth"
+            className="hidden h-9 items-center justify-center rounded-full border border-border/60 bg-surface/60 px-4 text-[13px] font-medium text-foreground transition-colors hover:bg-subtle sm:inline-flex"
+          >
             Log in / Sign up
-          </button>
-          <button className="inline-flex h-9 items-center justify-center rounded-full bg-accent px-4 text-[13px] font-semibold text-accent-foreground shadow-[0_8px_24px_-8px_hsl(var(--accent)/0.6)] transition-transform hover:-translate-y-0.5 sm:hidden">
+          </Link>
+          <Link
+            to="/auth"
+            className="inline-flex h-9 items-center justify-center rounded-full bg-accent px-4 text-[13px] font-semibold text-accent-foreground shadow-[0_8px_24px_-8px_hsl(var(--accent)/0.6)] transition-transform hover:-translate-y-0.5 sm:hidden"
+          >
             Log in
-          </button>
+          </Link>
           <button
             className="inline-flex size-9 items-center justify-center rounded-full border border-border/60 bg-surface/60 transition-colors hover:bg-subtle md:hidden"
             aria-label="Open menu"

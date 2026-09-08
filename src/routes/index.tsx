@@ -26,6 +26,7 @@ import {
   HelpCircle,
   LayoutGrid,
   Loader2,
+  Menu,
   Moon,
   MousePointer2,
   Plus,
@@ -36,6 +37,7 @@ import {
   ToggleRight,
   Users,
   Waves,
+  X,
   ArrowUpRight,
 } from "lucide-react";
 import {
@@ -50,6 +52,8 @@ import {
   stagger,
   useTheme,
 } from "@/nova";
+import { useAuth } from "@/context/auth-context";
+import { UserMenu } from "@/components/auth/user-menu";
 
 export const Route = createFileRoute("/")({
   component: LandingPage,
@@ -166,7 +170,7 @@ function ElementsMenu() {
         }`}
       >
         <div
-          className="rounded-2xl border border-white/10 bg-[#0b0b0b]/95 p-3 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)] backdrop-blur-xl ring-1 ring-white/5"
+          className="rounded-2xl border border-border/80 bg-background/95 p-3 shadow-2xl backdrop-blur-xl ring-1 ring-border/50 dark:border-white/10 dark:bg-[#0b0b0b]/95 dark:ring-white/5"
           style={{
             backgroundImage:
               "radial-gradient(120% 80% at 50% 0%, rgba(255,255,255,0.05), transparent 60%)",
@@ -179,19 +183,19 @@ function ElementsMenu() {
                 to="/elements"
                 search={{ category: label, tag: "All", q: "" }}
                 onClick={() => setOpen(false)}
-                className="group/item flex items-center justify-between gap-3 rounded-xl border border-transparent bg-white/[0.02] px-4 py-3 text-[14px] text-white/90 transition-all duration-200 hover:border-white/10 hover:bg-white/[0.06] hover:-translate-y-px"
+                className="group/item flex items-center justify-between gap-3 rounded-xl border border-transparent bg-subtle/50 px-4 py-3 text-[14px] text-foreground transition-all duration-200 hover:border-border hover:bg-subtle hover:-translate-y-px dark:border-transparent dark:bg-white/[0.02] dark:text-white/90 dark:hover:border-white/10 dark:hover:bg-white/[0.06]"
               >
                 <span className="flex items-center gap-3">
                   <Icon
                     size={18}
-                    className="text-white/70 transition-colors group-hover/item:text-white"
+                    className="text-muted-foreground transition-colors group-hover/item:text-foreground dark:text-white/70 dark:group-hover/item:text-white"
                   />
                   <span className="font-medium">{label}</span>
                 </span>
                 {badge ? (
-                  <span className="text-[13px] font-medium text-rose-400">{badge}</span>
+                  <span className="text-[13px] font-medium text-rose-500 dark:text-rose-400">{badge}</span>
                 ) : count !== undefined ? (
-                  <span className="text-[13px] tabular-nums text-white/45">
+                  <span className="text-[13px] tabular-nums text-muted-foreground/80 dark:text-white/45">
                     {count.toLocaleString()}
                   </span>
                 ) : null}
@@ -206,23 +210,27 @@ function ElementsMenu() {
 
 function TopNav() {
   const { resolvedTheme, toggle } = useTheme();
+  const { isAuthenticated } = useAuth();
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
   return (
     <header
       className={
         "sticky top-0 z-40 transition-[background,border-color,backdrop-filter] duration-300 " +
-        (scrolled
-          ? "border-b border-border/60 bg-background/70 backdrop-blur-xl"
+        (scrolled || mobileMenuOpen
+          ? "border-b border-border/60 bg-background/90 backdrop-blur-xl"
           : "border-b border-transparent bg-transparent")
       }
     >
-      <div className="mx-auto flex h-16 w-full items-center justify-between px-6 lg:max-w-none lg:px-8">
+      <div className="mx-auto flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:max-w-none lg:px-8">
         {/* Left — wordmark */}
         <a
           href="/"
@@ -230,14 +238,15 @@ function TopNav() {
             e.preventDefault();
             window.location.assign("/");
           }}
-          className="flex items-center gap-2 pl-1 md:pl-2"
+          className="group flex items-center gap-2 pl-1 md:pl-2"
+          title="Novix UI Home"
         >
           <span className="font-display text-[21px] font-bold tracking-tight">
             novix<span className="text-accent">ui</span>
           </span>
         </a>
 
-        {/* Center — primary nav */}
+        {/* Center — primary nav (desktop) */}
         <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 transition-[gap,padding] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:flex lg:gap-2 xl:gap-4 [&>a]:transition-[padding,font-size,background-color,color] [&>a]:duration-500 [&>a]:ease-[cubic-bezier(0.16,1,0.3,1)]">
           <ElementsMenu />
 
@@ -262,32 +271,115 @@ function TopNav() {
         </nav>
 
         {/* Right — actions */}
-        <div className="flex items-center gap-4 sm:gap-5 md:gap-6">
-
+        <div className="flex items-center gap-2 sm:gap-4 md:gap-6">
           <IconButton
             aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`}
             onClick={toggle}
-            icon={resolvedTheme === "dark" ? <Sun /> : <Moon />}
+            variant="ghost"
+            icon={
+              resolvedTheme === "dark" ? (
+                <Sun size={16} className="text-amber-400" />
+              ) : (
+                <Moon size={16} className="text-indigo-600" />
+              )
+            }
+            className="border border-border/80 bg-subtle/80 text-foreground transition-colors hover:bg-muted dark:border-white/10 dark:bg-white/[0.04] dark:text-white"
           />
           <Button
             size="sm"
             variant="accent"
             leadingIcon={<Plus />}
-            className="rounded-full"
+            className="rounded-full hidden sm:inline-flex"
             asChild
           >
             <Link to="/docs">Create</Link>
           </Button>
-          <Button
-            size="sm"
-            variant="secondary"
-            leadingIcon={<Users />}
-            className="rounded-full"
+
+          {isAuthenticated ? (
+            <UserMenu />
+          ) : (
+            <Button
+              size="sm"
+              variant="secondary"
+              leadingIcon={<Users />}
+              className="rounded-full text-xs sm:text-sm px-2.5 sm:px-3.5 border border-border/80 shadow-xs bg-surface-elevated text-foreground hover:bg-subtle"
+              asChild
+            >
+              <Link to="/auth" search={{ mode: "signup" }}>
+                <span>Join<span className="hidden sm:inline"> the Community</span></span>
+              </Link>
+            </Button>
+          )}
+
+          {/* Mobile hamburger menu toggle */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="grid size-9 place-items-center rounded-lg border border-border/60 bg-subtle/50 text-foreground md:hidden hover:bg-subtle transition-colors shrink-0"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           >
-            Join the Community
-          </Button>
+            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile dropdown panel */}
+      {mobileMenuOpen && (
+        <div className="border-t border-border/50 bg-background/95 backdrop-blur-xl px-4 py-4 md:hidden shadow-2xl flex flex-col gap-1.5 animate-in fade-in slide-in-from-top-2 duration-200">
+          <Link
+            to="/elements"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-medium text-foreground hover:bg-subtle transition-colors"
+          >
+            <span>Elements & Primitives</span>
+            <ArrowRight size={14} className="text-muted-foreground" />
+          </Link>
+          <Link
+            to="/challenges"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-medium text-foreground hover:bg-subtle transition-colors"
+          >
+            <span>Weekly Challenges</span>
+            <ArrowRight size={14} className="text-muted-foreground" />
+          </Link>
+          <Link
+            to="/docs"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-medium text-foreground hover:bg-subtle transition-colors"
+          >
+            <span>Documentation & Setup</span>
+            <ArrowRight size={14} className="text-muted-foreground" />
+          </Link>
+          <Link
+            to="/design"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-medium text-foreground hover:bg-subtle transition-colors"
+          >
+            <span>Design Studio</span>
+            <ArrowRight size={14} className="text-muted-foreground" />
+          </Link>
+          <a
+            href="#blog"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-medium text-foreground hover:bg-subtle transition-colors"
+          >
+            <span>Blog & Updates</span>
+            <ArrowRight size={14} className="text-muted-foreground" />
+          </a>
+          {!isAuthenticated && (
+            <div className="mt-2 pt-2 border-t border-border/40">
+              <Link
+                to="/auth"
+                search={{ mode: "signin" }}
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-accent-foreground shadow-md transition-all active:scale-[0.99]"
+              >
+                Sign In to Novix UI
+              </Link>
+            </div>
+          )}
+        </div>
+      )}
     </header>
   );
 }
