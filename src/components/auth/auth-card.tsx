@@ -1,29 +1,18 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 import { toast } from "sonner";
 import {
   Sparkles,
   Check,
-  ArrowRight,
   ShieldCheck,
   Trophy,
   Layers,
   Github,
   Key,
-  Eye,
-  EyeOff,
-  User,
-  Mail,
-  Lock,
-  ExternalLink,
 } from "lucide-react";
 import { GoogleIcon } from "./google-icon";
 import { OAuthConfigDialog } from "./oauth-config-dialog";
 import { useAuth, type AuthMode } from "@/context/auth-context";
-import { Button } from "@/nova/ui/button";
-import { Input } from "@/nova/ui/input";
-import { Label } from "@/nova/ui/label";
-import { Separator } from "@/nova/ui/separator";
 import { Badge } from "@/nova/ui/badge";
 import { Spinner } from "@/nova/ui/spinner";
 
@@ -56,49 +45,16 @@ export function AuthCard({
     signupWithGoogle,
     loginWithGitHub,
     signupWithGitHub,
-    loginWithEmail,
-    signupWithEmail,
   } = useAuth();
 
   const mode = initialMode || authModalMode;
   const setMode = (m: AuthMode) => setAuthModalMode(m);
 
-  // Form states
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [selectedRole, setSelectedRole] = useState("design-engineer");
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [isGithubLoading, setIsGithubLoading] = useState(false);
-  const [isEmailLoading, setIsEmailLoading] = useState(false);
   const [showConfigModal, setShowConfigModal] = useState(false);
   const [configDefaultTab, setConfigDefaultTab] = useState<"google" | "github">("google");
   const [error, setError] = useState<string | null>(null);
-
-  // Password analysis
-  const hasMinLength = password.length >= 8;
-  const hasUppercase = /[A-Z]/.test(password);
-  const hasNumberOrSpecial = /[0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password);
-
-  const getStrengthScore = () => {
-    let score = 0;
-    if (password.length >= 6) score++;
-    if (hasMinLength) score++;
-    if (hasUppercase) score++;
-    if (hasNumberOrSpecial) score++;
-    return score;
-  };
-
-  const strengthScore = getStrengthScore();
-  const strengthLabels = ["Empty", "Weak", "Fair", "Good", "Strong"];
-  const strengthColors = [
-    "bg-zinc-700",
-    "bg-rose-500",
-    "bg-amber-500",
-    "bg-emerald-400",
-    "bg-teal-400",
-  ];
 
   const handleGoogleAuth = async () => {
     setError(null);
@@ -156,37 +112,6 @@ export function AuthCard({
       setError(e instanceof Error ? e.message : "GitHub sign in was unsuccessful");
     } finally {
       setIsGithubLoading(false);
-    }
-  };
-
-  const handleEmailSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    if (!email) {
-      setError("Please enter your email address.");
-      return;
-    }
-    if (mode === "signup" && !name) {
-      setError("Please enter your full name.");
-      return;
-    }
-    if (!password || password.length < 6) {
-      setError("Password must be at least 6 characters.");
-      return;
-    }
-
-    setIsEmailLoading(true);
-    try {
-      if (mode === "signup") {
-        await signupWithEmail(name, email, password, selectedRole);
-      } else {
-        await loginWithEmail(email, password);
-      }
-      onSuccess?.();
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Authentication failed");
-    } finally {
-      setIsEmailLoading(false);
     }
   };
 
@@ -300,7 +225,7 @@ export function AuthCard({
           <button
             type="button"
             onClick={handleGoogleAuth}
-            disabled={isGoogleLoading || isGithubLoading || isEmailLoading}
+            disabled={isGoogleLoading || isGithubLoading}
             className="group relative flex w-full items-center justify-center gap-3 rounded-2xl border border-border/80 bg-background/95 px-4 py-3.5 text-sm font-semibold text-foreground shadow-sm transition-all duration-200 hover:border-accent/50 hover:bg-subtle hover:shadow-lg active:scale-[0.99] disabled:opacity-60"
           >
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-accent/0 via-accent/5 to-accent/0 opacity-0 transition-opacity group-hover:opacity-100" />
@@ -329,7 +254,7 @@ export function AuthCard({
           <button
             type="button"
             onClick={handleGithubAuth}
-            disabled={isGoogleLoading || isGithubLoading || isEmailLoading}
+            disabled={isGoogleLoading || isGithubLoading}
             className="flex w-full items-center justify-center gap-3 rounded-2xl border border-border/60 bg-subtle/50 px-4 py-2.5 text-xs font-medium text-muted-foreground transition-all hover:border-border-strong hover:bg-subtle hover:text-foreground active:scale-[0.99] disabled:opacity-60"
           >
             {isGithubLoading ? (
@@ -347,192 +272,19 @@ export function AuthCard({
           </button>
         </div>
 
-        {/* Divider */}
-        <div className="my-5 flex items-center gap-3 text-[11px] font-medium uppercase tracking-wider text-muted-foreground/60">
-          <Separator className="flex-1" />
-          <span>or continue with email</span>
-          <Separator className="flex-1" />
-        </div>
-
         {/* Error Notification */}
         {error && (
-          <div className="mb-4 flex items-center gap-2 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-400">
+          <div className="mt-4 flex items-center gap-2 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-400">
             <span className="font-semibold">Error:</span>
             <span>{error}</span>
           </div>
         )}
 
-        {/* Form */}
-        <form onSubmit={handleEmailSubmit} className="space-y-3.5">
-          <AnimatePresence initial={false} mode="sync">
-            {mode === "signup" && (
-              <motion.div
-                key="signup-name-role"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.2 }}
-                className="space-y-3.5"
-              >
-                <div className="space-y-1.5 text-left">
-                  <Label htmlFor="auth-name" required className="text-xs font-medium">
-                    Full Name
-                  </Label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                      id="auth-name"
-                      placeholder="Alex Rivera"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      autoComplete="name"
-                      className="pl-9 text-xs"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-1.5 text-left">
-                  <Label className="text-xs font-medium">Primary Craft / Role</Label>
-                  <div className="grid grid-cols-2 gap-1.5">
-                    {ROLES.map((r) => (
-                      <button
-                        key={r.id}
-                        type="button"
-                        onClick={() => setSelectedRole(r.id)}
-                        className={`rounded-lg border px-2.5 py-1.5 text-left text-[11px] font-medium transition-all ${
-                          selectedRole === r.id
-                            ? "border-accent/60 bg-accent/15 text-foreground ring-1 ring-accent/40"
-                            : "border-border/60 bg-subtle/40 text-muted-foreground hover:bg-subtle hover:text-foreground"
-                        }`}
-                      >
-                        {r.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          <div className="space-y-1.5 text-left">
-            <Label htmlFor="auth-email" required className="text-xs font-medium">
-              Email Address
-            </Label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                id="auth-email"
-                type="email"
-                placeholder="alex@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                autoComplete="email"
-                className="pl-9 text-xs"
-              />
-            </div>
-          </div>
-
-          <div className="space-y-1.5 text-left">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="auth-password" required className="text-xs font-medium">
-                Password
-              </Label>
-              {mode === "signin" && (
-                <a
-                  href="#forgot"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    toast.info("Password reset instructions dispatched to your email address.");
-                  }}
-                  className="text-[11px] text-accent transition-colors hover:underline"
-                >
-                  Forgot password?
-                </a>
-              )}
-            </div>
-
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                id="auth-password"
-                type={showPassword ? "text" : "password"}
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete={mode === "signup" ? "new-password" : "current-password"}
-                className="pl-9 pr-9 text-xs"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-              >
-                {showPassword ? <EyeOff className="size-3.5" /> : <Eye className="size-3.5" />}
-              </button>
-            </div>
-
-            {/* Password strength on sign-up */}
-            {mode === "signup" && password.length > 0 && (
-              <div className="mt-2 space-y-1.5">
-                <div className="flex h-1 gap-1">
-                  {[1, 2, 3, 4].map((idx) => (
-                    <div
-                      key={idx}
-                      className={`h-full flex-1 rounded-full transition-all duration-300 ${
-                        idx <= strengthScore ? strengthColors[strengthScore] : "bg-border/60"
-                      }`}
-                    />
-                  ))}
-                </div>
-                <div className="flex justify-between text-[10px] text-muted-foreground">
-                  <span>Security Level</span>
-                  <span className="font-semibold text-foreground">
-                    {strengthLabels[strengthScore]}
-                  </span>
-                </div>
-                <div className="grid grid-cols-3 gap-1 pt-1 text-[10px] text-muted-foreground">
-                  <span
-                    className={`flex items-center gap-1 ${
-                      hasMinLength ? "text-emerald-400 font-medium" : ""
-                    }`}
-                  >
-                    <Check className="size-2.5" /> 8+ chars
-                  </span>
-                  <span
-                    className={`flex items-center gap-1 ${
-                      hasUppercase ? "text-emerald-400 font-medium" : ""
-                    }`}
-                  >
-                    <Check className="size-2.5" /> Uppercase
-                  </span>
-                  <span
-                    className={`flex items-center gap-1 ${
-                      hasNumberOrSpecial ? "text-emerald-400 font-medium" : ""
-                    }`}
-                  >
-                    <Check className="size-2.5" /> Number/sym
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <Button
-            type="submit"
-            className="mt-3 w-full rounded-2xl py-3 font-semibold shadow-lg shadow-accent/15 transition-transform active:scale-[0.99]"
-            variant="accent"
-            disabled={isGoogleLoading || isGithubLoading || isEmailLoading}
-            trailingIcon={!isEmailLoading ? <ArrowRight className="size-4" /> : undefined}
-          >
-            {isEmailLoading ? (
-              <Spinner size="sm" />
-            ) : mode === "signup" ? (
-              "Create Community Account"
-            ) : (
-              "Sign In to Novix UI"
-            )}
-          </Button>
-        </form>
+        <div className="mt-5 text-center">
+          <p className="text-[11.5px] text-muted-foreground">
+            Fast, secure single sign-on via Google or GitHub. No password required.
+          </p>
+        </div>
 
         {/* Benefits banner */}
         {showBenefits && mode === "signup" && !compact && (

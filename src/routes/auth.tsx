@@ -40,20 +40,12 @@ function ClaudeStyleAuthPage() {
     githubClientId,
     loginWithGoogle,
     loginWithGitHub,
-    loginWithEmail,
-    signupWithEmail,
   } = useAuth();
 
   const navigate = useNavigate();
 
-  const [mode, setMode] = useState<AuthMode>(initialMode || "signin");
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [showEmailFields, setShowEmailFields] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [isGithubLoading, setIsGithubLoading] = useState(false);
-  const [isEmailLoading, setIsEmailLoading] = useState(false);
   const [showConfigModal, setShowConfigModal] = useState(false);
   const [configTab, setConfigTab] = useState<"google" | "github">("google");
 
@@ -109,39 +101,6 @@ function ClaudeStyleAuthPage() {
     }
   };
 
-  // Email form submit
-  const handleEmailSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) {
-      toast.error("Please enter your email.");
-      return;
-    }
-
-    if (!showEmailFields) {
-      setShowEmailFields(true);
-      return;
-    }
-
-    if (!password || password.length < 6) {
-      toast.error("Password must be at least 6 characters.");
-      return;
-    }
-
-    setIsEmailLoading(true);
-    try {
-      if (mode === "signup") {
-        await signupWithEmail(name || "Novix Creator", email, password);
-      } else {
-        await loginWithEmail(email, password);
-      }
-      navigate({ to: "/" });
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Authentication failed");
-    } finally {
-      setIsEmailLoading(false);
-    }
-  };
-
   return (
     <div className="relative min-h-screen bg-[#faf9f6] text-zinc-900 dark:bg-[#141413] dark:text-[#e3ded6] font-sans antialiased selection:bg-[#c96442]/20 selection:text-zinc-900 dark:selection:bg-[#c96442]/30 dark:selection:text-white flex flex-col justify-between transition-colors duration-300 overflow-x-hidden">
       {/* Subtle Warm Aura Backdrop */}
@@ -194,8 +153,8 @@ function ClaudeStyleAuthPage() {
             <button
               type="button"
               onClick={handleGoogleSignIn}
-              disabled={isGoogleLoading || isGithubLoading || isEmailLoading}
-              className="w-full cursor-pointer flex items-center justify-center gap-2.5 sm:gap-3 rounded-xl border border-zinc-200 bg-zinc-50/80 px-3.5 py-2.5 sm:px-4 sm:py-3 text-xs sm:text-sm font-medium text-zinc-800 hover:bg-zinc-100 hover:border-zinc-300 hover:text-zinc-950 dark:border-[#353532] dark:bg-[#272724] dark:text-[#ebe5db] dark:hover:bg-[#2e2e2a] transition-all duration-100 active:scale-[0.97] active:duration-40 disabled:opacity-60 shadow-2xs"
+              disabled={isGoogleLoading || isGithubLoading}
+              className="w-full cursor-pointer flex items-center justify-center gap-2.5 sm:gap-3 rounded-xl border border-zinc-200 bg-zinc-50/80 px-3.5 py-3 text-xs sm:text-sm font-medium text-zinc-800 hover:bg-zinc-100 hover:border-zinc-300 hover:text-zinc-950 dark:border-[#353532] dark:bg-[#272724] dark:text-[#ebe5db] dark:hover:bg-[#2e2e2a] transition-all duration-100 active:scale-[0.97] active:duration-40 disabled:opacity-60 shadow-2xs"
             >
               {isGoogleLoading ? (
                 <Spinner size="sm" className="text-zinc-900 dark:text-white" />
@@ -209,8 +168,8 @@ function ClaudeStyleAuthPage() {
             <button
               type="button"
               onClick={handleGithubSignIn}
-              disabled={isGoogleLoading || isGithubLoading || isEmailLoading}
-              className="mt-2.5 w-full cursor-pointer flex items-center justify-center gap-2.5 sm:gap-3 rounded-xl border border-zinc-200 bg-zinc-50/80 px-3.5 py-2.5 sm:px-4 sm:py-3 text-xs sm:text-sm font-medium text-zinc-800 hover:bg-zinc-100 hover:border-zinc-300 hover:text-zinc-950 dark:border-[#353532] dark:bg-[#272724] dark:text-[#ebe5db] dark:hover:bg-[#2e2e2a] transition-all duration-100 active:scale-[0.97] active:duration-40 disabled:opacity-60 shadow-2xs"
+              disabled={isGoogleLoading || isGithubLoading}
+              className="mt-2.5 w-full cursor-pointer flex items-center justify-center gap-2.5 sm:gap-3 rounded-xl border border-zinc-200 bg-zinc-50/80 px-3.5 py-3 text-xs sm:text-sm font-medium text-zinc-800 hover:bg-zinc-100 hover:border-zinc-300 hover:text-zinc-950 dark:border-[#353532] dark:bg-[#272724] dark:text-[#ebe5db] dark:hover:bg-[#2e2e2a] transition-all duration-100 active:scale-[0.97] active:duration-40 disabled:opacity-60 shadow-2xs"
             >
               {isGithubLoading ? (
                 <Spinner size="sm" className="text-zinc-900 dark:text-white" />
@@ -220,74 +179,11 @@ function ClaudeStyleAuthPage() {
               <span>Continue with GitHub</span>
             </button>
 
-            {/* Minimalist OR Divider */}
-            <div className="my-4 sm:my-5 flex items-center justify-center gap-3">
-              <div className="h-px bg-zinc-200 flex-1 dark:bg-[#2f2f2b]" />
-              <span className="text-[10px] sm:text-[11px] font-mono tracking-widest text-zinc-500 uppercase dark:text-[#787368]">
-                or
-              </span>
-              <div className="h-px bg-zinc-200 flex-1 dark:bg-[#2f2f2b]" />
-            </div>
-
-            {/* Email Form */}
-            <form onSubmit={handleEmailSubmit} className="space-y-3">
-              {showEmailFields && mode === "signup" && (
-                <input
-                  type="text"
-                  placeholder="Your name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full rounded-xl border border-zinc-200 bg-zinc-50/60 px-3.5 py-2.5 sm:px-4 sm:py-3 text-xs sm:text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 dark:border-[#353532] dark:bg-[#242421] dark:text-[#f4efe6] dark:placeholder-[#6b675e] dark:focus:border-accent dark:focus:ring-accent transition-all"
-                />
-              )}
-
-              <input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-xl border border-zinc-200 bg-zinc-50/60 px-3.5 py-2.5 sm:px-4 sm:py-3 text-xs sm:text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 dark:border-[#353532] dark:bg-[#242421] dark:text-[#f4efe6] dark:placeholder-[#6b675e] dark:focus:border-accent dark:focus:ring-accent transition-all"
-              />
-
-              {showEmailFields && (
-                <input
-                  type="password"
-                  placeholder="Password (at least 6 characters)"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full rounded-xl border border-zinc-200 bg-zinc-50/60 px-3.5 py-2.5 sm:px-4 sm:py-3 text-xs sm:text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 dark:border-[#353532] dark:bg-[#242421] dark:text-[#f4efe6] dark:placeholder-[#6b675e] dark:focus:border-accent dark:focus:ring-accent transition-all"
-                />
-              )}
-
-              {/* Continue with email CTA */}
-              <button
-                type="submit"
-                disabled={isEmailLoading}
-                className="w-full cursor-pointer rounded-xl bg-zinc-900 px-3.5 py-2.5 sm:px-4 sm:py-3 text-xs sm:text-sm font-medium text-white hover:bg-black dark:bg-[#f4efe6] dark:text-[#191918] dark:hover:bg-white transition-all duration-100 active:scale-[0.97] active:duration-40 disabled:opacity-60 flex items-center justify-center gap-2 shadow-xs"
-              >
-                {isEmailLoading ? (
-                  <Spinner size="sm" className="text-white dark:text-black" />
-                ) : (
-                  <span>Continue with email</span>
-                )}
-              </button>
-            </form>
-
-            {/* Mode switch link */}
-            <div className="mt-3.5 sm:mt-4 text-center">
-              <button
-                type="button"
-                onClick={() => {
-                  const nextMode = mode === "signin" ? "signup" : "signin";
-                  setMode(nextMode);
-                  setShowEmailFields(false);
-                }}
-                className="text-xs text-zinc-600 hover:text-zinc-950 dark:text-[#8c867b] dark:hover:text-[#e3ded6] font-medium transition-colors py-1 inline-block"
-              >
-                {mode === "signin"
-                  ? "Don't have an account? Sign up"
-                  : "Already have an account? Sign in"}
-              </button>
+            {/* Helper Caption */}
+            <div className="mt-4 pt-3.5 border-t border-zinc-200/60 dark:border-[#2f2f2b] text-center">
+              <p className="text-[11px] text-zinc-500 dark:text-[#787368]">
+                Instant single sign-on via verified Google or GitHub profile.
+              </p>
             </div>
           </div>
 
