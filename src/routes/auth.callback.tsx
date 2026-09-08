@@ -43,15 +43,17 @@ function AuthCallbackPage() {
               emailVerified: data.email_verified,
             };
 
+            // Always save to localStorage so the session is active regardless of opener status
+            localStorage.setItem("novixui_auth_user", JSON.stringify(userProfile));
+
             if (window.opener && !window.opener.closed) {
               window.opener.postMessage(
                 { type: "NOVIX_OAUTH_SUCCESS", provider: "google", user: userProfile },
-                window.location.origin
+                "*"
               );
               window.close();
               return;
             } else {
-              localStorage.setItem("novixui_auth_user", JSON.stringify(userProfile));
               navigate({ to: "/" });
               return;
             }
@@ -98,7 +100,7 @@ function AuthCallbackPage() {
             if (window.opener && !window.opener.closed) {
               window.opener.postMessage(
                 { type: "NOVIX_OAUTH_SUCCESS", provider: "github", user: data },
-                window.location.origin
+                "*"
               );
               window.close();
               return;

@@ -143,12 +143,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsAuthModalOpen(false);
   }, []);
 
-  // Window postMessage listener for popup OAuth callbacks
+  function isAllowedOrigin(origin: string): boolean {
+  if (typeof window === "undefined") return false;
+  if (origin === window.location.origin) return true;
+  if (origin.endsWith("novixui.com")) return true;
+  if (origin === "http://localhost:3000" || origin === "http://localhost:5173" || origin === "http://localhost:8080") return true;
+  return false;
+}
+
+// Window postMessage listener for popup OAuth callbacks
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     const handleMessage = (event: MessageEvent) => {
-      if (event.origin !== window.location.origin) return;
+      if (!isAllowedOrigin(event.origin)) return;
 
       if (event.data?.type === "NOVIX_OAUTH_SUCCESS" && event.data.user) {
         const authedUser: AuthUser = event.data.user;
@@ -306,7 +314,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       };
 
       const handleMessage = (event: MessageEvent) => {
-        if (event.origin !== window.location.origin) return;
+        if (!isAllowedOrigin(event.origin)) return;
 
         if (event.data?.type === "NOVIX_OAUTH_SUCCESS" && event.data.provider === "google") {
           cleanup();
@@ -385,7 +393,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       };
 
       const handleMessage = (event: MessageEvent) => {
-        if (event.origin !== window.location.origin) return;
+        if (!isAllowedOrigin(event.origin)) return;
 
         if (event.data?.type === "NOVIX_OAUTH_SUCCESS" && event.data.provider === "github") {
           cleanup();
